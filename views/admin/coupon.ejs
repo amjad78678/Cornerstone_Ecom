@@ -1,0 +1,240 @@
+<%- include('./layouts/header.ejs')  %>
+<%- include('./layouts/headerNav.ejs')  %>
+        <main class="main-wrap">
+            <header class="main-header navbar">
+                <div class="col-search">
+                    <form class="searchform">
+                        <div class="input-group">
+                            <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
+                            <button class="btn btn-light bg" type="button"><i class="material-icons md-search"></i></button>
+                        </div>
+                        <datalist id="search_terms">
+                            <option value="Products"></option>
+                            <option value="New orders"></option>
+                            <option value="Apple iphone"></option>
+                            <option value="Ahmed Hassan"></option>
+                        </datalist>
+                    </form>
+                </div>
+                <div class="col-nav">
+                    <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i class="material-icons md-apps"></i></button>
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon" href="#">
+                                <i class="material-icons md-notifications animation-shake"></i>
+                                <span class="badge rounded-pill">3</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
+                        </li>
+                        <li class="dropdown nav-item">
+                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i class="material-icons md-public"></i></a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
+                                <a class="dropdown-item text-brand" href="#"><img src="assetsAdmin/imgs/theme/flag-us.png" alt="English" />English</a>
+                                <a class="dropdown-item" href="#"><img src="assetsAdmin/imgs/theme/flag-fr.png" alt="Français" />Français</a>
+                                <a class="dropdown-item" href="#"><img src="assetsAdmin/imgs/theme/flag-jp.png" alt="Français" />日本語</a>
+                                <a class="dropdown-item" href="#"><img src="assetsAdmin/imgs/theme/flag-cn.png" alt="Français" />中国人</a>
+                            </div>
+                        </li>
+                        <li class="dropdown nav-item">
+                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="assetsAdmin/imgs/people/avatar-2.png" alt="User" /></a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                                <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-account_balance_wallet"></i>Wallet</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help center</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="#"><i class="material-icons md-exit_to_app"></i>Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+
+
+  <div id="reloadDiv">
+  <section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Coupon List</h2>
+        </div>
+
+        <div>
+            <a href="/admin/addCoupon" class="btn btn-primary btn-sm rounded">Add Coupons</a>
+        </div>
+    </div>
+
+    <div class="row gx-3">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="myTable" class="table table-hover text-center">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Name</th>
+                            <th>Code</th>
+                            <th>Description</th>
+                            <th>Expiry Date</th>
+                            <th>Value</th>
+                            <th>Min Amount</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <!-- Dummy data for demonstration purposes -->
+                    <% couponData.forEach((coupons,index)=>{ %>
+                    <tbody id="coupon1">
+                        <tr>
+                            <td>
+                                <span><%=index+1  %></span>
+                            </td>
+                            <td>
+                                <span><%=coupons.couponName  %></span>
+                            </td>
+                            <td>
+                                <span><%=coupons.couponCode  %></span>
+                            </td>
+                            <td>
+                                <span><%=coupons.couponDescription  %></span>
+                            </td>
+                            <td>
+                                <span ><%=coupons.expiryDate.toLocaleDateString()  %></span>
+                            </td>
+                            <td>
+                                <span>₹<%=coupons.discountAmount  %></span>
+                            </td>
+                        <td>
+                                <span>₹<%=coupons.minAmount  %></span>
+                            </td>
+                            <td>
+                                  <% if(coupons.expiryDate>=new Date()){ %>
+                                <span class="badge rounded-pill alert-success">Active</span>
+                                  <% }else if(coupons.expiryDate<new Date()){ %>
+                                 <span class="badge rounded-pill alert-warning">Inactive</span>
+
+                                <% } %>
+                            </td>
+                          
+
+
+                            <td>
+                                <a onclick="removeCoupon(event,'<%=coupons._id%>')" class="btn btn-sm btn-danger rounded font-sm">Remove</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                <% }) %>
+                    <!-- Repeat the above structure for more dummy data -->
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+</div>
+
+
+
+             <footer class="main-footer font-xs">
+                <div class="row pb-30 pt-15">
+                    <div class="col-sm-6">
+                        <script>
+                            document.write(new Date().getFullYear());
+                        </script>
+                        &copy; Nest - HTML Ecommerce Template .
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="text-sm-end">All rights reserved</div>
+                    </div>
+                </div>
+            </footer>
+        </main>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="assetsAdmin/js/vendors/jquery-3.6.0.min.js"></script>
+        <script src="assetsAdmin/js/vendors/bootstrap.bundle.min.js"></script>
+        <script src="assetsAdmin/js/vendors/select2.min.js"></script>
+        <script src="assetsAdmin/js/vendors/perfect-scrollbar.js"></script>
+        <script src="assetsAdmin/js/vendors/jquery.fullscreen.min.js"></script>
+
+
+<!-- DataTables JS jquery pagination search -->
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
+        <!-- DataTables CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+
+
+          <!-- jquery library search -->
+ <script>   
+              $(document).ready(function() {
+                 $('.example').DataTable();
+                });
+
+
+     async function removeCoupon(event,couponId){
+      event.preventDefault()
+
+       Swal.fire({
+                            title: 'Are you sure?',
+                            text: "You want to delete!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButton: '#3085d6',
+                            cancelButton: '#d33',
+                            confirmButtonText: 'Yes, remove!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.ajax({
+                                    type:'POST',
+                                    url: '/admin/deleteCoupon',
+                                    data: {
+                                        couponId:couponId
+                                    },    
+                                    success: (response) => {
+                                        if (response.success) {
+
+                                            $('#reloadDiv').load('/admin/coupon #reloadDiv', () => {
+
+                                                Swal.fire({
+                                                    title: 'Deleted!',
+                                                    text: 'Your item has been deleted.',
+                                                    icon: 'success',
+                                                    timer: 1500,
+                                                    showConfirmButton: false
+                                                });
+                                            });
+                                        } else {
+                                            Swal.fire({
+                                                title: 'Error!',
+                                                text: 'Failed to delete item.',
+                                                icon: 'error',
+                                                showConfirmButton: false
+                                            });
+                                        }
+                                    },
+                                    error: (error) => {
+                                        console.log(error);
+                                        Swal.fire({
+                                            title: 'Error!',
+                                            text: 'An error occurred while deleting the coupon.',
+                                            icon: 'error',
+                                            showConfirmButton: false
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+
+     
+ </script>
+
+
+        <!-- Main Script -->
+        <script src="assetsAdmin/js/main.js?v=1.1" type="text/javascript"></script>
+    </body>
+</html>

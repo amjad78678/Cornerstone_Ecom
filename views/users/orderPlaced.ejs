@@ -1,0 +1,237 @@
+<%- include('./layouts/header.ejs')  %>
+<div class="page-wrapper">
+  <!--Header start-->
+
+  <header style="height: 7rem;" class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid p-5">
+      <a class="navbar-brand" href="#">
+        <img
+          width="250rem"
+          height="70rem"
+          src="https://imgs.search.brave.com/IS3ECAw-N7V5vfLuJOPJQwYn0zPRLDKKDI5LT2JFpxU/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/Y3NvZGJyYW5kLmNv/bS93cC1jb250ZW50/L3VwbG9hZHMvMjAy/MS8xMC9Db3JuZXJz/dG9uZS1Mb2dvLUhv/cml6b250YWwucG5n"
+          alt=""
+        />
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon togg"
+          ><i class="fa-solid fa-bars"></i
+        ></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="ms-auto">
+          <a class="me-5 text-dark" href="/">Home</a>
+          <a class="me-5 text-dark" <% if(user){ %>
+                href="/productList">
+            <% }else{ %>
+              href="/productListN">
+              
+              <% } %>Shop</a>
+          <a class="me-5 text-dark" href="#">About Us</a>
+          
+          <a class="me-4 text-dark" href="#">Contact Us </a>
+          <a class="me-4 text-dark" href="/cart "><%   if(user){  %>
+            
+            
+            <i class="fas fa-shopping-cart"></i>
+            
+            <% } %></a>
+          <a href="#"><i class="me-4 fa-regular fa-heart"></i></a>
+
+          <div class="dropdown d-inline">
+            <button
+              class="btn btn-secondary dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton1"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="fa-regular fa-user" style="margin-right: 5px;">
+                <% if (user){%>
+               <%= user.userName%>
+                 <%} %></i>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li><a class="dropdown-item" <% if(user) { %> 
+                    href="/userProfile">
+                <% }else{ %>
+                 href="/userSignIn">
+                  <% } %>
+               
+                <% if(user){ %>
+                   My profile
+
+               <%  }else{%>
+                  Login
+
+              <%   }%>
+              </a></li>
+              <li><a class="dropdown-item" <% if(user) {%> 
+                   href="/userLogout">
+                <% }else{ %>
+                    href="/userRegister">
+                  <% } %>
+                <% if(user){ %>
+                   Logout
+
+               <%  }else{%> 
+                  Sign Up
+
+              <%   }%>
+              </a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <br>
+
+       <main class="main">
+    <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+        <div class="container">
+            <h1 class="page-title">Checkout<span>Shop</span></h1>
+        </div><!-- End .container -->
+    </div><!-- End .page-header -->
+
+    <nav aria-label="breadcrumb" class="breadcrumb-nav">
+        <div class="container">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+            </ol>
+        </div><!-- End .container -->
+    </nav><!-- End .breadcrumb-nav -->
+
+
+
+    
+        <section class="breadcrumb-option">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="breadcrumb__text">
+                            <h5>Order Placed!!</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 mt-5">
+                    <div class="mb-4" style="text-align: center;">
+                        <h3 style="color: green;">Congrats !! , Your order has been placed successfully</h3>
+                    </div>
+
+                 
+                        <div class="shopping-cart">
+                            <table class="cart-table">
+                               
+
+                                
+                            </table>
+                        </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="order-card">
+                        <div class="order-card-header">
+                            <h3>Order Summary</h3>
+                        </div>
+                        <div class="order-card-body" id="printThisDiv">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Details</th>
+                                        <th scope="col">Info</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Order ID:</td>
+                                        <td>
+                                         <%= order.order_id  %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>User Name:</td>
+                                        <td>
+                                           <%= order.user_name  %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Address Details:</td>
+                                        <td>
+                                            <%= order.delivery_address  %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Payment:</td>
+                                        <td>
+                                           <%= order.payment  %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total Price:</td>
+                                        <td>₹<%=order.total_amount  %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Date:</td>
+                                        <td>
+                                           <%= order.date  %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Delivery by:</td>
+
+                                        <td>
+                                            <%= order.expected_delivery  %>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <div>
+                                <strong>Thank You For Purchasing With Us 😊    <span class="btn btn-light"><a href="/orders"><b>View orders</b></a></span></strong>
+
+                            </div>
+                            <br>
+                            <div class="order-card-footer">
+                                <a href="/productList">Continue Shopping</a>
+                            </div>
+                       
+                            <br>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+   
+ <%- include('./layouts/footerNavbar.ejs')  %>
+
+
+<!-- End .modal -->
+<%- include('./layouts/footer.ejs')  %>

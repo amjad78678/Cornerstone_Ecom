@@ -1,0 +1,342 @@
+
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Male_Fashion Template">
+    <meta name="keywords" content="Male_Fashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <title>Cornerstone</title>
+
+    <link rel="shortcut icon" type="image/x-icon" href="assets/user/img/theme/menswear.png" />
+    <!-- Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+    rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="assets/user/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="assets/user/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="assets/user/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="assets/user/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="assets/user/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="assets/user/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="assets/user/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="assets/user/css/style.css" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="path/to/magnify.css">
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/userHome.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/skins/skin-demo-2.css" />
+    <link rel="stylesheet" href="assets/css/demos/demo-2.css" />
+    <link rel="stylesheet" href="/userHome.css" />
+<!-- Bootstrap JS Bundle (Bootstrap JS + Popper.js) -->
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+  crossorigin="anonymous"
+></script>
+
+    <link
+  rel="stylesheet"
+  href="assets/css/plugins/owl-carousel/owl.carousel.css"
+/>
+<link
+  rel="stylesheet"
+  href="assets/css/plugins/magnific-popup/magnific-popup.css"
+/>
+<link rel="stylesheet" href="assets/css/plugins/jquery.countdown.css" />
+<link
+  rel="stylesheet"
+  href="assets/vendor/line-awesome/line-awesome/line-awesome/css/line-awesome.min.css"
+/>
+
+
+<!-- Favicon -->
+<link
+  rel="apple-touch-icon"
+  sizes="180x180"
+  href="assets/images/icons/apple-touch-icon.png"
+/>
+<link
+  rel="icon"
+  type="image/png"
+  sizes="32x32"
+  href="assets/images/icons/favicon-32x32.png"
+/>
+<link
+  rel="icon"
+  type="image/png"
+  sizes="16x16"
+  href="assets/images/icons/favicon-16x16.png"
+/>
+<link rel="manifest" href="assets/images/icons/site.html" />
+<link
+  rel="mask-icon"
+  href="assets/images/icons/safari-pinned-tab.svg"
+  color="#666666"
+/>
+<link rel="shortcut icon" href="assets/images/icons/favicon.ico" />
+<script src="https://kit.fontawesome.com/c0b612fc07.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+<style>
+  @media only screen and (min-width: 768px) {
+  .imgProfile{
+    margin-left: 370px;
+  }
+
+  }
+    @media only screen and (min-width: 992px) {
+  .imgProfile{
+    margin-left: 50px;
+  }
+
+  }
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light p-4">
+   <img class="imgLogo"
+          width="250rem"
+          height="250rem"
+          src="https://imgs.search.brave.com/IS3ECAw-N7V5vfLuJOPJQwYn0zPRLDKKDI5LT2JFpxU/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/Y3NvZGJyYW5kLmNv/bS93cC1jb250ZW50/L3VwbG9hZHMvMjAy/MS8xMC9Db3JuZXJz/dG9uZS1Mb2dvLUhv/cml6b250YWwucG5n"
+          alt=""
+        />
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto ms-auto">
+      <li class="nav-item active">
+        <a class="nav-link mr-4 text-dark" href="/">Home<span class="sr-only">(current)</span></a>
+        
+      </li>
+      <li class="nav-item">
+       <a class="nav-link mr-4 text-dark" <% if(locals.user){ %>
+                href="/productList">
+            <% }else{ %>
+              href="/productList">
+              
+              <% } %>Shop</a>
+      </li>
+       <li class="nav-item active">
+               <a class="nav-link mr-3 text-dark" href="/aboutUs">About Us</a>
+        
+      </li>
+         <li class="nav-item active">
+               <a class="nav-link mr-3 text-dark" href="/contactUs">Contact Us </a>
+        
+      </li>
+         <li class="nav-item active">
+                       <a class="nav-link mr-3 text-dark" href="/cart "><%   if(locals.user){  %>
+            
+            
+            <i class="fas fa-shopping-cart"></i>
+            
+            <% } %></a>
+        
+      </li>
+         <li class="nav-item active">
+            <a href=""><i class="nav-link fa fa-heart" style="margin-top: 6px;" aria-hidden="true"></i></a>
+        
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+           <% if (locals.user) { %>
+    <%= user.userName.toUpperCase() %>
+  <% } %>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          
+          <a class="dropdown-item" <% if(locals.user) { %> 
+                    href="/userProfile">
+                <% }else{ %>
+                 href="/userSignIn">
+                  <% } %>
+               
+                <% if(locals.user){ %>
+                   My profile
+
+               <%  }else{%>
+                  Login
+
+              <%   }%>
+              </a>
+      
+          <div class="dropdown-divider"></div>
+         <a class="dropdown-item" <% if(locals.user) {%> 
+                   href="/userLogout">
+                <% }else{ %>
+                    href="/userRegister">
+                  <% } %>
+                <% if(locals.user){ %>
+                   Logout
+
+               <%  }else{%> 
+                  Sign Up
+
+              <%   }%>
+              </a>
+        </div>
+      </li>
+   
+    </ul>
+ 
+  </div>
+</nav>  
+
+    <section class="breadcrumb-option">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="breadcrumb__text">
+              <h4>Shop</h4>
+              <div class="breadcrumb__links">
+                <a href="/">Home</a>
+                <span>Profile</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section style="background-color: #51565c">
+      <div class="container py-5">
+        <% if(typeof successMessage!=='undefined' ){ %>
+          <div class="text-success">
+            <%=successMessage %>
+          </div>
+          <% } %>
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="card mb-4">
+                  <div class="card-body text-center">
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6.webp" alt="avatar"
+                      class="rounded-circle img-fluid imgProfile" style="width: 150px; border: 4px solid #fff" />
+                    <h5 class="my-3">
+                      <%= user.name %>
+                    </h5>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item">
+                        <a href="/editProfile" class="btn btn-outline-dark btn-block">Edit Profile</a>
+                      </li>
+                      <li class="list-group-item">
+                        <a href="/orders" class="btn btn-outline-dark btn-block">Orders</a>
+                      </li>
+                      <li class="list-group-item">
+                        <a href="/manageAddress" class="btn btn-outline-dark btn-block">Manage Address</a>
+                      </li>
+                        <li class="list-group-item">
+                        <a href="/walletHistory" class="btn btn-outline-dark btn-block">Wallet</a>
+                      </li>
+                      <!-- Add Logout Button Here -->
+                   
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+              
+              <div class="col-lg-8">
+            
+                <div class="card">
+                  <div class="card-body">
+            <h5 class="card-title">User Profile   <span class="float-right">  <!-- Your EJS template code -->
+<input type="hidden" id="referralCode" name="referralCode"
+       value="<%= `${protocol}://${host}/userRegister?referral=${user.referralCode}` %>" readonly>
+
+
+            <button onclick="copyReferralCode()" class="btn btn-dark rounded-0 my-1" title="Copy referral code">REFERRAL
+              LINK <i class="bi bi-clipboard"></i></button></span></h5> 
+                    <hr />
+
+                    <div class="row mb-3">
+                      <div class="col-sm-3">
+                        <p class="font-weight-bold mb-0" style="color: #000000;">Full Name</p>
+                      </div>
+                      <div class="col-sm-9">
+                        <p class="text-muted mb-0" >
+                          <%= user.userName %>
+                        </p>
+                      </div>
+                    </div>
+                    <hr />
+                    <div class="row mb-3">
+                      <div class="col-sm-3">
+                        <p class="font-weight-bold mb-0" style="color: #000000;">Email</p>
+                      </div>
+                      <div class="col-sm-9">
+                        <p class="text-muted mb-0">
+                          <%= user.email %>
+                        </p>
+                      </div>
+                    </div>
+                    <hr />
+                    <div class="row mb-3">
+                      <div class="col-sm-3">
+                        <p class="font-weight-bold mb-0" style="color: #000000;">Phone</p>
+                      </div>
+                      <div class="col-sm-9">
+                        <p class="text-muted mb-0">
+                          <%= user.mobileNumber %>
+                        </p>
+                      </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                      <div class="col-sm-9">
+                        <a href="/changePassword" class="btn btn-outline-info btn-sm">Change Password</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+      </div>
+    </section>
+ 
+
+
+    <%- include('./layouts/footerNavbar.ejs') -%>
+
+      <%- include('./layouts/footer.ejs') -%>
+
+   <script>
+    // Function to copy the referral code to clipboard
+    function copyReferralCode() {
+      const referralCodeValue = document.getElementById('referralCode').value;
+      const tempInput = document.createElement('input');
+      document.body.appendChild(tempInput);
+      tempInput.value = referralCodeValue;
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+      // Optionally, you can show a notification to indicate the code has been copied
+      Swal.fire({
+      icon: 'success',
+      title: 'Copied!',
+      text: 'Referral code copied to clipboard!',
+      timer: 2000, // You can adjust the timer or remove it for a manual close
+      showConfirmButton: false
+    });
+    }
+  </script>
+
+

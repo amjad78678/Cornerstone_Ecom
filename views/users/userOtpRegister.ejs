@@ -1,0 +1,236 @@
+
+  <%- include('./layouts/header.ejs') %>
+  <%- include('./layouts/headerNavbar.ejs') %>
+
+  <!-- End header -->
+
+  <main class="main">
+    <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+      <!-- End .container -->
+    </nav>
+    <!-- End .breadcrumb-nav -->
+
+    <div
+      class="login-page bg-image pt-8 pb-8 pt-md-12 pb-md-12 pt-lg-17 pb-lg-17"
+      style="background-image: url('assets/images/backgrounds/loginsignup.jpg')"
+    >
+
+    <div id="otpMainDiv">
+      <div class="container">
+        <div class="form-box">
+          <div class="form-tab">
+            <ul class="nav nav-pills nav-fill" role="tablist">
+              <li class="nav-item">
+                <div id="otpSented" style="display: none;" class="btn-lg btn-primary"></div>
+                <a
+                  class="nav-link active"
+                  id="register-tab-2"
+                  data-toggle="tab"
+                  href="#register-2"
+                  role="tab"
+                  aria-controls="register-2"
+                  aria-selected="true"
+                  >Sign in</a
+                >
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div
+                class="tab-pane fade"
+                id="signin-2"
+                role="tabpanel"
+                aria-labelledby="signin-tab-2"
+              >
+                <!-- End .form-choice -->
+              </div>
+              <!-- .End .tab-pane -->
+              <div
+                class="tab-pane fade show active "
+                id="register-2 "
+                role="tabpanel"
+                aria-labelledby="register-tab-2"
+              >
+                <form action="/authentication" id="otp-form">
+                  <div class="form-group">
+
+                    <!-- hidden aayi pass cheyyaaan -->
+                    <input type="hidden" id="resendId" name="id" value="<%= id  %>">
+               
+                    
+                    <label for="Your otp">An OTP has been sent to your email. Please enter the OTP to proceed. *</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="Otp"
+                      name="Otp"
+                      required
+                    />
+                  </div>
+
+                  <!-- End .form-group -->
+
+                  
+
+                  <!-- End .form-group -->
+
+                  <div class="form-footer">
+                    <button id="verifyOtpBtn" type="submit" onclick="verifyOtp(event)" class="btn btn-outline-primary-2">
+                      <span>Submit</span>
+                      <i class="icon-long-arrow-right"></i>
+                    </button>
+
+                    <!-- <a class="text-decoration-none" href="/userResendOtp">Resend Otp</a> -->
+                        
+                    <!-- End .custom-checkbox -->
+                  </div>
+                  <!-- End .form-footer -->
+                </form>
+
+               <p class="text-center" id="timer"> <span class="text-danger" id="countdown"> </span> </p>
+               <!-- for withot refresh error message -->
+               <div id="otpMessage" class="text-center" style="color: #c70000; font-size: smaller;"></div>
+           
+                 <a style="display: none;" class="text-center ms-1 mt-1" id="resend" href="#" onclick="resendOtp(event)">Resend Otp</a>
+               
+                 <% if (typeof message!=='undefined'){ %>
+                <p class="text-center text-success"><%- message%></p>
+                <% } %>
+            
+
+  <!-- Your other HTML content here -->
+
+
+
+
+                <!-- End .form-choice -->
+              </div>
+              <!-- .End .tab-pane -->
+            </div>
+            <!-- End .tab-content -->
+          </div>
+          <!-- End .form-tab -->
+        </div>
+        <!-- End .form-box -->
+      </div>
+      <!-- End .container -->
+      </div>
+    </div>
+    <!-- End .login-page section-bg -->
+  </main>
+  <!-- End .main -->
+
+  <%- include('./layouts/footerNavbar.ejs') %>
+  <%- include('./layouts/footer.ejs') %>
+
+<script>
+
+var countDownStart = 60;
+
+function updateButtonText() {countdown
+    if (countDownStart > 0) {
+        document.getElementById('countdown').innerHTML = "Expires in " + countDownStart +' seconds...';
+        countDownStart--;
+        setTimeout(updateButtonText, 1000); // Update every 1 second
+        
+    } else {
+        // OTP expired, update the inner HTML with the resend link
+        var resendLink = document.getElementById('timer').getAttribute('data-resend-link');
+        document.getElementById('countdown').innerHTML = '<span class="text-danger">Otp expired</span>';
+        document.getElementById('resend').style.display='block'
+    } 
+}
+
+updateButtonText(); // Start the countdown
+
+
+
+async function resendOtp(event) {
+  event.preventDefault();
+  
+
+
+  var verifyData = $("#otp-form").serialize();
+  $.ajax({
+    url: '/resend-otp',
+    type: 'POST',
+    data: verifyData,
+   success: function (response) {
+     if (response.success){
+    console.log( response.id); 
+      $("#resendId").val(response.id);
+     
+
+
+
+    
+var countDownStart = 60;
+
+function updateButtonText() {
+    if (countDownStart > 0) {
+        document.getElementById('resend').style.display='none'
+        document.getElementById('countdown').innerHTML = "Expires in " + countDownStart +' seconds...';
+        countDownStart--;
+        setTimeout(updateButtonText, 1000); // Update every 1 second
+        
+    } else {
+        // OTP expired, update the inner HTML with the resend link
+        var resendLink = document.getElementById('timer').getAttribute('data-resend-link');
+        document.getElementById('countdown').innerHTML = '<span class="text-danger">Otp expired</span>';
+        document.getElementById('resend').style.display='block'
+    } 
+}
+
+updateButtonText(); // Start the countdown
+
+  $("#otpSented").css("display", "block").html('Otp successfully sented');
+      setTimeout(()=>{
+      
+     $("#otpSented").css("display", "none").html('Otp successfully sented');
+
+      },2000)
+   
+  }
+} 
+,
+    error: function (error) {
+      console.error(error);
+      // Handle errors if necessary
+    }
+  });
+}
+
+
+
+
+async function verifyOtp(event){
+
+     event.preventDefault()
+      var verifyData = $("#otp-form").serialize();
+       console.log('iruitrudk',verifyData);
+      $.ajax({
+        type: "POST",
+        url: "/authentication", // Update the URL to your server endpoint
+        data: verifyData,
+        success: function (response) {
+          console.log(response.message);
+          if(response.message){
+           $("#otpMessage").html(response.message);
+          setTimeout(()=>{
+          $("#otpMessage").html('')
+          },3000)
+          }
+
+          if(response.success){
+             window.location.href = '/home';
+          }
+         
+        },
+        error: function () {
+          $("#otpMessage").html("Error verifying OTP");
+        }
+      });
+}
+
+
+</script>
+

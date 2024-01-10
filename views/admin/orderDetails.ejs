@@ -1,0 +1,432 @@
+<%- include('./layouts/header.ejs')  %>
+
+<style>
+    .custom-container {
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+</style>
+
+<%- include('./layouts/headerNav.ejs')  %>
+
+
+
+        <main class="main-wrap">
+            <header class="main-header navbar">
+                <div class="col-search">
+                    <form class="searchform">
+                        <div class="input-group">
+                            <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
+                            <button class="btn btn-light bg" type="button"><i class="material-icons md-search"></i></button>
+                        </div>
+                        <datalist id="search_terms">
+                            <option value="Products"></option>
+                            <option value="New orders"></option>
+                            <option value="Apple iphone"></option>
+                            <option value="Ahmed Hassan"></option>
+                        </datalist>
+                    </form>
+                </div>
+                <div class="col-nav">
+                    <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i class="material-icons md-apps"></i></button>
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon" href="#">
+                                <i class="material-icons md-notifications animation-shake"></i>
+                                <span class="badge rounded-pill">3</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
+                        </li>
+                        <li class="dropdown nav-item">
+                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i class="material-icons md-public"></i></a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
+                                <a class="dropdown-item text-brand" href="#"><img src="assetsAdmin/imgs/theme/flag-us.png" alt="English" />English</a>
+                                <a class="dropdown-item" href="#"><img src="assetsAdmin/imgs/theme/flag-fr.png" alt="Français" />Français</a>
+                                <a class="dropdown-item" href="#"><img src="assetsAdmin/imgs/theme/flag-jp.png" alt="Français" />日本語</a>
+                                <a class="dropdown-item" href="#"><img src="assetsAdmin/imgs/theme/flag-cn.png" alt="Français" />中国人</a>
+                            </div>
+                        </li>
+                        <li class="dropdown nav-item">
+                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="assetsAdmin/imgs/people/avatar-2.png" alt="User" /></a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                                <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-account_balance_wallet"></i>Wallet</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help center</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="#"><i class="material-icons md-exit_to_app"></i>Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+ <section class="w-100">
+
+    <div class="container">
+        <div class="mt-5">
+            <div class="card mb-4 rounded-0">
+               
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 class="card-title text-decoration-underline">Delivery Address:</h4>
+                            <h6 class="card-text" style="font-size: 1.2rem;">
+                                <%= orderData.delivery_address %>
+                            </h6>
+                  
+                            <div class="mt-2">
+                                
+
+                                  <% 
+                        const mobileNumberMatch = orderData.delivery_address.match(/\b\d{10}\b/); %>
+
+
+                      <%  const mobileNumber = mobileNumberMatch ? mobileNumberMatch[0] : null;  %>
+
+                                  <% const phoneNumber=mobileNumber %>
+                                <h6>Contact Details: </h6>
+                                <br>
+
+
+                                <i class="bi bi-envelope"></i>&nbsp;<%=orderData.user_id.email  %><br>
+                                <span>
+                                    <i class="bi bi-telephone">&nbsp;</i>
+                                    <%= phoneNumber  %>
+                                </span>
+                            </div>
+                          
+                        </div>
+                        <div class="col-md-4 mt-5 mt-md-0 text-nowrap">
+                            <h4 class="card-title text-decoration-underline">Order Details:</h4>
+                      <% const addressName = orderData.delivery_address.split('-');
+                                  %>
+                                  <% const customerName=addressName[0].trim() %>
+                            <div class="mb-2">
+                                Customer: <%=customerName  %>
+                            </div>
+                            <div class="mb-2">
+                                <span>OrderId: <%=orderData._id  %></span><br>
+                                <span>Date: <%=orderData.date  %></span><br>
+                            </div>
+                            <div class="mb-2 ">
+                                <span>Payment Method: <%=orderData.payment  %></span><br>
+                                <span>Total Amount: ₹<%=orderData.total_amount  %></span>
+                            </div>
+                            <%  %>
+                            <div class="mb-2">
+                                <% if(orderData.couponName){ %>
+                               <span>Coupon Name: <%= orderData.couponName %></span><br>
+                                 <span>Coupon Discount: ₹<%= orderData.couponDiscount %></span>
+                                    <% }else{ %>
+                                <span>Coupon Name: No coupon used</span><br>
+
+                                <% } %>
+                              
+                            </div>
+                           
+                                <div>
+                                        <strong>Status:</strong>
+                                        <%=orderData.status %>
+                                            <% if(orderData.status==='placed' ){%>
+                                                <i class="bi bi-check-circle text-success"></i>
+                                                <%}else if(orderData.status==='cancelled' ){%>
+                                                    <i class="bi bi-x-circle text-danger"></i>
+                                                    <%}else if(orderData.status==='shipped' ){%>
+                                                        <i class="bi bi-truck text-success"></i>
+                                                        <%}else if(orderData.status==='out for delivery' ){%>
+                                                            <i class="bi bi-box-arrow-right text-success"></i>
+                                                            <%}else if(orderData.status==='delivered' ){%>
+                                                                <i class="bi bi-check2-circle text-success"></i>
+                                                                <%}else if(orderData.status==='cancelled by admin' ){%>
+                                                                    <i class="bi bi-x-circle text-danger"></i>
+                                                                    <%}else if(orderData.status==='return pending'
+                                                                        ){%>
+                                                                        <i class="bi bi-clock-history text-warning"></i>
+                                                                        <%}else if(orderData.status==='returned' ){%>
+                                                                            <i
+                                                                                class="bi bi-arrow-counterclockwise text-success"></i>
+                                                                            <%}%>
+                                                                </div>
+
+
+
+                                                                   </div>
+                    
+
+
+
+
+                        <div class="col-md-4 mt-5 mt-md-0">
+                            <h4 class="card-title text-decoration-underline">Actions:</h4>
+                            <div class="mt-3">
+                                <strong>Status: <%=orderData.status  %></strong><br>
+                                <i class="bi bi-check-circle text-success"></i><br>
+                            <% if(orderData.status.toString()=='dispatched'
+                         ||
+                         orderData.status.toString()=='placed'
+                         ||orderData.status.toString()=='out for delivery'
+                         ) {%>
+                         <strong>Change Status :
+                         </strong><button
+                             style="border: none;"
+                             class="bg-success"
+                             data-bs-toggle="modal"
+                             data-bs-target="#exampleModal"
+                             class="popupBTN"
+                             data-id="<%=orderData._id  %>"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                         <% } %>
+
+
+
+
+                            </div>
+
+
+                                      <div class="mt-4">
+                                                <% if(orderData.status=='dispatched' ||
+                                                    orderData.status=='placed' ) {%>
+                                                    <form action="" id="myForm">
+                                                         <input type="hidden" name="orderId" id="orderId" value="<%=orderData._id  %>">
+                                                        <button type="submit" onclick="cancelOrder(event)" class="btn btn-danger rounded-0 cancelBTN">Cancel
+                                                            Order</button>
+                                                    </form>
+                                                    <% } %>
+                                            </div>
+
+
+                            <% if(orderData.status=='return pending'){ %>
+                            <div class="mt-4">
+                                <form action="" id="returnForm">
+                                      <input type="hidden" name="orderId" id="orderId" value="<%=orderData._id  %>">
+                                    <button type="submit" onclick="approveReturn(event)" class="btn btn-success rounded-0">APPROVE RETURN</button>
+                                </form>
+                            </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- prods -->
+            <% orderData.items.forEach((orders)=>{ %>   
+            <div class="container ">
+           
+            <div class="row mt-4">
+                
+                <div class=" mb-3">
+                  
+                    <div class="card rounded-0 w-100">
+                        <div class="card-body">
+                            <div class="d-flex">
+                                
+                                <div class="me-3">
+                                    <img src="<%=orders.product_id.imageUrl[0]  %>" class="img-fluid" alt="" width="200rem">
+                                </div>
+                                <div>
+                                    <h4 class="card-title display-6">
+                                    <%= orders.product_id.name  %>
+                                    </h4>
+                                    <span class="font-size:20px text-secondary ms-4"><b>Category</b>: <%=orders.product_id.category  %></span><br>
+                                    <span class="card-text text-secondary ms-4">Wood: <%=orders.product_id.wood  %></span><br>
+                                    <span class="card-text text-secondary ms-4">Quantity: <%=orders.quantity  %></span>
+                                    <h5 class="card-title mt-2 ms-4">₹<%=orders.product_id.price  %></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <!-- modal -->
+ 
+        </div>
+    </div>
+    <% }) %>
+
+           <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Change Status</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form  action="" id="formData">
+                            <div class="modal-body">
+                                <input type="hidden" name="orderId" id="orderId" value="<%=orderData._id  %>">
+                                <label for="status">Select delivery status</label><br><br>
+                                <select name="status" class="form-control" id="status">
+                                    <option  value="dispatched">Dispatched</option>
+                                    <option value="out for delivery">Out for delivery</option>
+                                    <option value="delivered">Delivered</option>
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">CLOSE</button>
+                                <button type="submit" onclick="orderStatus(event)" class="btn btn-success">UPDATE</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+
+</section>
+
+            <!-- content-main end// -->
+            <footer class="main-footer font-xs">
+                <div class="row pb-30 pt-15">
+                    <div class="col-sm-6">
+                        <script>
+                            document.write(new Date().getFullYear());
+                        </script>
+                        &copy; Nest - HTML Ecommerce Template .
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="text-sm-end">All rights reserved</div>
+                    </div>
+                </div>
+            </footer>
+        </main>
+
+
+
+
+
+
+
+
+<!-- Plugins JS File -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="assetsAdmin/js/vendors/jquery-3.6.0.min.js"></script>
+        <script src="assetsAdmin/js/vendors/bootstrap.bundle.min.js"></script>
+        <script src="assetsAdmin/js/vendors/select2.min.js"></script>
+        <script src="assetsAdmin/js/vendors/perfect-scrollbar.js"></script>
+        <!-- jQuery CDN link -->
+       <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        <!-- Main Script -->
+        <script src="assetsAdmin/js/main.js?v=1.1" type="text/javascript"></script>
+
+
+        
+        
+        <script>
+    async function orderStatus(event) {
+    event.preventDefault();
+    
+    const formData = $('#formData').serialize(); // Use jQuery to serialize the form data
+
+    $.ajax({
+        type: 'POST',
+        url: '/admin/order-status',
+        data: formData,
+        success: function (response) {
+            // Handle the success response here
+         window.location.href = window.location.href    
+        },
+        error: function (error) {
+            // Handle the error response here
+        }
+    });
+}
+
+async function cancelOrder(event) {
+    event.preventDefault();
+
+    // Display SweetAlert confirmation
+    const confirmation = await Swal.fire({
+        title: 'Are you sure?',
+        text: 'You are about to cancel the order.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, cancel it!'
+    });
+
+    // If the user confirms the cancellation
+    if (confirmation.isConfirmed) {
+        const formData = $('#myForm').serialize(); // Use jQuery to serialize the form data
+
+        $.ajax({
+            type: 'POST',
+            url: '/admin/cancel-order',
+            data: formData,
+            success: function (response) {
+                if (response.success == true) {
+                    const removeElement = document.getElementById(`cancelBTN`);
+                    if(removeElement){
+                      removeElement.parentNode.removeChild(removeElement);
+                    }
+                 
+                    // Handle the success response here
+                    Swal.fire('Order Canceled!', 'The order has been canceled successfully.', 'success')
+                        .then(() => {
+                            // Redirect to the current page
+                            window.location.href = window.location.href;
+                        });
+                }
+            },
+            error: function (error) {
+                // Handle the error response here
+                Swal.fire('Error', 'An error occurred while canceling the order.', 'error');
+            }
+        });
+    }
+}
+
+async function approveReturn(event) {
+    event.preventDefault();
+
+    // Display SweetAlert confirmation
+    const confirmation = await Swal.fire({
+        title: 'Approve Return?',
+        text: 'Are you sure you want to approve this return?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, approve it!'
+    });
+
+    // If the user confirms the approval
+    if (confirmation.isConfirmed) {
+        const formData = $('#returnForm').serialize();
+
+        $.ajax({
+            type: 'POST',
+            url: '/admin/approveReturn',
+            data: formData,
+            success: function (response) {
+                if (response.success == true) {
+                    // Handle the success response here
+                    Swal.fire('Return Approved!', 'The return has been approved successfully.', 'success')
+                        .then(() => {
+                            // Redirect to the current page
+                            window.location.href = window.location.href;
+                        });
+                }
+            },
+            error: function (error) {
+                // Handle the error response here
+                Swal.fire('Error', 'An error occurred while approving the return.', 'error');
+            }
+        });
+    }
+}
+
+        
+        </script>
+        
+    </body>
+</html>

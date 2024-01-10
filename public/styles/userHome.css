@@ -1,0 +1,17 @@
+.upper {
+  font-size: 20px;
+  color: black;
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+.social-label a {
+  display: inline-block;
+  margin-right: 10px; /* Adjust the margin as needed */
+}
+.error{
+  color: red;
+  margin-left: 10px;
+  display: block;
+}

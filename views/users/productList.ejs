@@ -1,0 +1,578 @@
+<%- include('./layouts/header.ejs')  %>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<link rel="stylesheet" href="/assets/css/productList.css">
+<%- include('./layouts/headerNavbar.ejs')  %>
+
+
+
+        <main class="main">
+        	<div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+        		<div class="container">
+        			<h1 class="page-title">Furnitures<span>Shop</span></h1>
+        		</div><!-- End .container -->
+        	</div><!-- End .page-header -->
+            <nav aria-label="breadcrumb" class="breadcrumb-nav mb-2">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                       
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+            <div class="page-content">
+                <div class="container">
+                	<div class="row">
+                      <aside class="col-lg-3 order-lg-first">
+                			<div class="sidebar sidebar-shop">
+                
+                					<label>Filters:</label>
+                		
+              
+
+
+
+
+                          
+    <form id="searchForm" action="" class="d-flex">
+        <input type="text" id="searchInput" class="form-control" placeholder="Search for products" name="Search" />
+       <button class="searchBtn btn-md btn-primary mb-2" type="submit">
+   <i class="fas fa-search px-3"></i>
+    </button>
+    </form>
+
+                     
+
+
+      
+
+   <div class="shop__sidebar__categories">
+      <div class="accordion" id="accordionExample">
+
+                                    <div class="card">
+
+                                       <div class="card-heading">
+                                            <a data-toggle="collapse" data-target="#collapseOne"  >Categories <span class="ms-3"> <i class="fa-solid fa-chevron-down"></i></span></a>
+                                        </div>
+
+                                        <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                <div class="shop__sidebar__categories">
+                    <ul class="category-checkboxes">
+                        <li>
+                            <label>
+                                <input type="radio" value="All"
+                                    class="category-checkbox" name="selectedCategory">
+                                All Categories
+                            </label>
+                        </li>
+
+                        <% for (let i=0;i<category.length;i++) { %>
+                          <% if(category[i].is_Listed==true){ %>
+                            <li>
+                                <label>
+                                    <input type="radio" value="<%= category[i].name %>"
+                                        class="category-checkbox"
+                                        name="selectedCategory">
+                                    <%= category[i].name %>
+                                </label>
+                            </li>
+                            <% } %>
+                            <% } %>
+                    </ul>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                             </div>
+
+         
+
+
+   <div class="card">
+   <div class="card-heading">
+      <a data-toggle="collapse" data-target="#collapsePrice">Price Range <span class="ms-3"> <i class="fa-solid fa-chevron-down"></i></span></a>
+  </div>
+
+
+<div id="collapsePrice" class="collapse show" data-parent="#accordionExample">
+
+       <div class="price-input">
+        <div class="field">
+          <span>Min</span>
+          <input type="number" class="input-min" value="0">
+        </div>
+        <div class="separator">-</div>
+        <div class="field">
+          <span>Max</span>
+          <input type="number" class="input-max" value="<%=grandTotal  %>">
+        </div>
+      </div>
+      <div class="mb-1">
+      <div class="slider">
+        <div class="progress"></div>
+      </div>
+      <div class="range-input">
+        <input type="range" class="range-min" min="0" max="10000" value="0" step="100">
+        <input type="range" class="range-max" min="0" max="<%=grandTotal  %>" value="<%=grandTotal  %>" step="100">
+      </div>
+      </div>
+      </div>
+    </div>
+</div>
+</div>
+
+	</div><!-- End .sidebar sidebar-shop -->
+ <button class="p-2 btn-md form-control btn-primary" id="applyButton">Apply Filters</button>     
+		</aside><!-- End .col-lg-3 -->
+
+
+
+
+
+                		<div class="col-lg-9">
+                      <div class="col-lg-12">
+          
+                        <div class="container-fluid">
+    <div class="row">
+    <div class="col-lg-4 fs-5">
+    Showing <span id="productCount"><%=count%></span> Products <span>...</span>
+</div>
+
+<div style="float: right;" class="col-lg-8 fs-5 float-right" id="sortingOptions">
+
+    <label for="" class="fw-bold">Sort:</label>
+    <a href="" id="latestOption">&nbsp;Latest<i class="bi bi-arrow-repeat"></i>&nbsp;|</a>
+    <a href="" id="lowToHighOption">&nbsp;Price Low to High<i class="bi bi-sort-numeric-down"></i>&nbsp;|</a>
+    <a href="" id="highToLowOption">&nbsp;Price High to Low<i class="bi bi-sort-numeric-up"></i></a>
+
+</div>
+</div>
+</div>
+
+  <div class=" products mb-3"id="reloadDiv" >
+   <div class="row justify-content-center">
+                                  
+
+               <%
+               // Create a mapping of category IDs to is_Listed status
+               const categoryMap = {};
+               for (let j = 0; j < category.length; j++) {
+                 categoryMap[category[j].name] = category[j].is_Listed==true;
+                }
+               %>
+
+  <% if(product.length > 0) { %>
+    <div class="row">
+    
+      <% for(let i = 0; i < product.length; i++) { %>
+         
+        <% const categoryIsListed = categoryMap[product[i].category]; %>
+
+        <% if(product[i].is_Listed==true && categoryIsListed) { %>
+          <div class="col-6 col-md-4 col-lg-4">
+            <div class="product product-7 text-center">
+              <figure class="product-media">
+            
+
+                <% if(product[i].stockQuantity<1){ %>
+                <span class="product-label label-out-of-stock bg-danger text-white fs-6">Out of Stock</span>
+              <% }else if(isNewProduct(product[i])){ %>
+                    
+                  <span class="product-label label-new">New</span>
+                <% } %>
+                <a href="/productDetail?id=<%= product[i]._id %>">
+                  <img src="<%= product[i].imageUrl[0] %>" alt="<%= product[i].imageUrl %>" class="product-image">
+                </a>
+
+                <div class="product-action-vertical">
+              
+            
+                  <a href="" class="btn-product-icon btn-wishlist" onclick="addToWishlist(event,'<%= product[i]._id%>')"></a>
+                </div><!-- End .product-action-vertical -->
+
+            <div class="product-action">
+            <input type="hidden" id="quantity" value="1">
+            <input type="hidden" id="productId" value="<%= product[i]._id  %>">
+
+            <% if(product[i].stockQuantity<1){ %>
+
+                <a  class="btn-product text-white bg-danger"><span>Out of stock</span></a>
+              <% }else{ %>
+
+            <a href="#" onclick="addTocart(event,'<%= product[i]._id %>')" class="btn-product btn-cart"><span>add to cart</span></a>
+                <% } %>
+    
+
+                </div><!-- End .product-action -->
+              </figure><!-- End .product-media -->
+
+              <div class="product-body">
+                <div class="product-cat">
+                  <a href="#"><%= product[i].category %></a>
+                </div><!-- End .product-cat -->
+                <h3 class="product-title"><a href="/productDetail?id=<%= product[i]._id %>"><%= product[i].name %></a></h3><!-- End .product-title -->
+               
+                <div class="product-price me-2">
+
+                      <%= product[i].discountedPrice  %>
+
+                                <% if(product[i].discount>0){ %>
+
+                                  <p class="mb-0" style="text-decoration: line-through;">₹ <%= product[i].price %> <span
+                                      class="badge badge-success"> Save ₹ <%=product[i].discount %>
+                                  </span></p> 
+                                  
+                                  <% } %>
+                            
+                </div><!-- End .product-price -->
+                <div class="ratings-container">
+            
+                  <span class="ratings-text">( <%=product[i].reviews.length  %> Reviews )</span>
+                </div><!-- End .rating-container -->
+
+                <!-- End .product-nav -->
+              </div><!-- End .product-body -->
+            </div><!-- End .product -->
+          </div><!-- End .col-sm-6 col-lg-4 -->
+        <% } %>
+      <% } %>
+    </div><!-- End .row -->
+  <% } %>
+
+                             
+                                 
+                                    
+                                    
+                                    
+                                    
+                                    <!-- End .col-sm-6 col-lg-4 -->
+                     </div><!-- End .row -->
+  <nav aria-label="Page navigation">
+	 <ul class="pagination justify-content-center">
+   
+      <% for(let i=1 ; i<=totalPages; i++){ %>
+          <li class="page-item <%= currentPage === i ? 'active' : '' %>" aria-current="page">
+              <a class="page-link" href="" onclick="pagination(event,'<%= i %>')">
+                  <%= i %> <!-- Add 1 to start the page numbering from 1 instead of 0 -->
+              </a>
+          </li>
+      <% } %>
+  </ul>
+
+	</nav>
+ </div><!-- End .products -->
+
+ 
+                		</div><!-- End .col-lg-9 -->
+           </div>
+                	</div><!-- End .row -->
+                </div><!-- End .container -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+
+<%- include('./layouts/footerNavbar.ejs')  %>
+<%- include('./layouts/footer.ejs')  %>
+
+<script>
+
+
+async function addTocart(event,productId) {
+
+  try {
+     event.preventDefault(); // Prevents the default form submission behavior
+
+   
+  const quantity=  document.getElementById('quantity').value
+
+
+
+
+
+
+    const data = {
+      productId: productId,
+      quantity:quantity,    
+    };
+
+console.log('Data:', data);
+
+
+console.log('Before Axios request');
+const response = await axios.post("/addToCart", data);
+console.log('After Axios request');
+    if (response.data.success) {
+                                Swal.fire({
+                                    title: "Success",
+                                    text: "Product added to cart",
+                                    icon: "success",
+                                    showCancelButton: true,
+                                    confirmButtonText: "Go to Cart", // Text for the "Go to Cart" button
+                                    cancelButtonText: "Cancel", // Text for the "Cancel" button
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        // Redirect to the cart page when the "Go to Cart" button is clicked
+                                        window.location.href = "/cart"; // Replace "/cart" with your actual cart page URL
+                                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                        // Handle the cancel action if needed (not needed in this case)
+                                    }
+                                });
+
+                            } else if (response.data&&response.data.limited) {
+                                Swal.fire({
+                                    title: "Error",
+                                    text: 'Sorry!Product stock exceeded',
+                                    icon: 'error',
+                                    timer: 2000
+                                })
+
+                            } else {
+                                Swal.fire({
+                                    title: "Error adding to cart",
+                                    text: "Please login to continue",
+                                    icon: "error",
+                                    showCancelButton: true,
+                                    confirmButtonText: "Login", // Text for the login button
+                                    cancelButtonText: "Cancel", // Text for the cancel button
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        // Redirect to the login section when the "Login" button is clicked
+                                        window.location.href = "/userSignIn"; // Replace "/login" with your actual login page URL
+                                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                        // Handle the cancel action if needed (not needed in this case)
+                                    }
+                                });
+
+
+                            }
+                        
+
+        }catch (error) {
+  console.error('An error occurred during the request', error);
+}
+
+}
+
+
+async function addToWishlist(event,productId){
+  try {
+   event.preventDefault()
+
+ 
+    const response=await axios.put('/wishlist',{productId})
+
+    if(response.data.success==true){
+      const {count}  =response.data
+
+   Swal.fire({
+  title: 'Success!',
+  text: 'Your product has been added to the wishlist.',
+  icon: 'success',
+  confirmButtonColor: '#4caf50', // You can customize the color if needed
+  confirmButtonText: 'Great!',
+});
+
+    }else if(response.data.success==false){
+   Swal.fire({
+  title: 'Oops!',
+  text: 'This product is already in your wishlist.',
+  icon: 'info',
+  confirmButtonColor: '#ff9800', // You can customize the color if needed
+  confirmButtonText: 'Got it!',
+});
+
+    } else if(response.data.login==true) {
+                            Swal.fire({
+                                    title: "Error adding to cart",
+                                    text: "Please login to continue",
+                                    icon: "error",
+                                    showCancelButton: true,
+                                    confirmButtonText: "Login", // Text for the login button
+                                    cancelButtonText: "Cancel", // Text for the cancel button
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        // Redirect to the login section when the "Login" button is clicked
+                                        window.location.href = "/userSignIn"; // Replace "/login" with your actual login page URL
+                                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                        // Handle the cancel action if needed (not needed in this case)
+                                    }
+                                });
+
+
+                            }
+   
+   } catch (error) {
+    console.log(error.message);
+  }
+
+  }
+
+
+
+//price slider 
+
+const rangeInput = document.querySelectorAll(".range-input input"),
+  priceInput = document.querySelectorAll(".price-input input"),
+  range = document.querySelector(".slider .progress");
+let priceGap = 1000;
+
+priceInput.forEach((input) => {
+  input.addEventListener("input", (e) => {
+    let minPrice = parseInt(priceInput[0].value),
+      maxPrice = parseInt(priceInput[1].value);
+
+    if (maxPrice - minPrice >= priceGap && maxPrice <= rangeInput[1].max) {
+      if (e.target.className === "input-min") {
+        rangeInput[0].value = minPrice;
+        range.style.left = (minPrice / rangeInput[0].max) * 100 + "%";
+      } else {
+        rangeInput[1].value = maxPrice;
+        range.style.right = 100 - (maxPrice / rangeInput[1].max) * 100 + "%";
+      }
+    }
+  });
+});
+
+rangeInput.forEach((input) => {
+  input.addEventListener("input", (e) => {
+    let minVal = parseInt(rangeInput[0].value),
+      maxVal = parseInt(rangeInput[1].value);
+
+    if (maxVal - minVal < priceGap) {
+      if (e.target.className === "range-min") {
+        rangeInput[0].value = maxVal - priceGap;
+      } else {
+        rangeInput[1].value = minVal + priceGap;
+      }
+    } else {
+      priceInput[0].value = minVal;
+      priceInput[1].value = maxVal;
+      range.style.left = (minVal / rangeInput[0].max) * 100 + "%";
+      range.style.right = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
+    }
+  });
+});
+
+
+
+document.getElementById('latestOption').addEventListener('click', function (event) {
+    event.preventDefault();
+    sendSortRequest(3); // Assuming 3 is the sort value for "Latest"
+});
+
+document.getElementById('lowToHighOption').addEventListener('click', function (event) {
+    event.preventDefault();
+    sendSortRequest(2); // Assuming 2 is the sort value for "Price Low to High"
+});
+
+document.getElementById('highToLowOption').addEventListener('click', function (event) {
+    event.preventDefault();
+    sendSortRequest(1); // Assuming 1 is the sort value for "Price High to Low"
+});
+
+async function sendSortRequest(sortValue) {
+
+   console.log("Sort value:", sortValue);
+   const searchInput = document.getElementById('searchInput').value;
+   const minPrice = parseInt(rangeInput[0].value);
+   const maxPrice = parseInt(rangeInput[1].value);
+   const selectedCategoryCheckbox=document.querySelector('input[name="selectedCategory"]:checked');
+   const selectedCateg=selectedCategoryCheckbox?selectedCategoryCheckbox.value:null
+
+
+ const response = await axios.post('/productList', { sortValue,searchInput,minPrice,maxPrice,selectedCateg });
+
+    if(response.data.success==true){
+       $('#reloadDiv').load('/productList #reloadDiv')
+    }
+
+}
+
+
+// for applying search products
+ const searchForm= document.getElementById('searchForm')
+
+ searchForm.addEventListener('submit',function(event){
+  
+  event.preventDefault()
+
+   const searchInput = document.getElementById('searchInput').value;
+   const minPrice = parseInt(rangeInput[0].value);
+   const maxPrice = parseInt(rangeInput[1].value);
+   const selectedCategoryCheckbox=document.querySelector('input[name="selectedCategory"]:checked');
+   const selectedCateg=selectedCategoryCheckbox?selectedCategoryCheckbox.value:null
+
+
+    applyPriceFilter(searchInput,minPrice,maxPrice,selectedCateg)
+
+ })
+
+
+    document.getElementById('applyButton').addEventListener('click',function(){
+    
+   
+ const minPrice = parseInt(rangeInput[0].value);
+ const maxPrice = parseInt(rangeInput[1].value);
+ const selectedCategoryCheckbox=document.querySelector('input[name="selectedCategory"]:checked');
+ const selectedCateg=selectedCategoryCheckbox?selectedCategoryCheckbox.value:null
+   if(minPrice || maxPrice || selectedCateg){
+
+   applyPriceFilter(null,minPrice,maxPrice,selectedCateg)
+
+   }
+    })
+
+
+   async function applyPriceFilter(searchInput,minPrice,maxPrice,selectedCateg){
+    const response=await $.ajax({
+    url:'/productList',
+    method:'post',
+    data:{
+      searchInput,
+      minPrice,
+      maxPrice,
+      selectedCateg
+    }
+   })
+   console.log(response);
+   if(response.success){
+       $('#reloadDiv').load('/productList #reloadDiv')
+   }
+
+  }
+
+
+ async function pagination(event,pageno) {
+
+     console.log('Pagination clicked for page:', pageno);
+event.preventDefault()
+
+      const minPrice = parseInt(rangeInput[0].value);
+      const maxPrice = parseInt(rangeInput[1].value);
+      const selectedCategoryCheckbox=document.querySelector('input[name="selectedCategory"]:checked');
+      const selectedCateg=selectedCategoryCheckbox?selectedCategoryCheckbox.value:null
+       try {
+       const response=await $.ajax({
+        url:'/productList',
+        method:'POST',
+        data:{
+          minPrice,
+          maxPrice,
+          selectedCateg,
+          pageno
+        }
+       })
+     console.log(response);
+     console.log('Server response:', response); 
+   if(response.success){
+    $('#reloadDiv').load('/productList #reloadDiv')
+   }
+  } catch(error){
+    console.log(error.message);
+  }
+}
+
+
+</script>
+

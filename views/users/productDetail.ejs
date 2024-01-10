@@ -1,0 +1,687 @@
+<%- include('./layouts/header.ejs')  %>
+<link rel="stylesheet" href="/assets/css/productDetails.css">
+<%- include('./layouts/headerNavbar.ejs')  %>
+
+
+
+        <main class="main bg-white">
+            <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+                <div class="container d-flex align-items-center">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/productList">Products</a></li>
+                          <li class="breadcrumb-item"><a href="#">Product details</a></li>
+                       
+                    </ol>
+
+                    <nav class="product-pager ml-auto" aria-label="Product">
+                    
+                    </nav><!-- End .pager-nav -->
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+            <br>
+
+            <div class="page-content bg-white">
+                <div class="container">
+                    <div class="product-details-top mb-2">
+                        <div class="row">
+                            <div class="col-md-6">
+
+
+                      
+                                  <div class="product-gallery product-gallery-vertical" style="overflow: hidden;">
+                                      <div class="row">
+                                          <figure  class="product-main-image ">
+                                              <img id="productZoom" src="<%= product.imageUrl[0] %>"    alt="product image">
+
+
+                                        </figure><!-- End .product-main-image -->
+
+                                        <div id="product-zoom-gallery" class="product-image-gallery">
+                                            
+                                                <img class="imgPrd" src="<%= product.imageUrl[1]  %>" onclick="changeMainImage(this)" alt="product side">
+                                           
+
+                                            
+                                                <img class="imgPrd" src="<%= product.imageUrl[2]  %>" onclick="changeMainImage(this)" alt="product cross">
+
+
+                                           
+                                                <img class="imgPrd" src="<%= product.imageUrl[3]  %>" onclick="changeMainImage(this)" alt="product with model">
+                                           
+
+                                            
+                                                <img class="imgPrd" src="<%= product.imageUrl[4]  %>" onclick="changeMainImage(this)" alt="product back">
+                                            
+                                        </div><!-- End .product-image-gallery -->
+                                    </div><!-- End .row -->
+                                </div><!-- End .product-gallery -->
+                            </div><!-- End .col-md-6 -->
+
+
+
+
+
+                           
+                            <div class="col-md-6">
+                                <div class="product-details product-details-centered">
+                                  <input type="hidden" name="productId" id="productId" value="<%= product._id  %>">
+                                    <h1 class="product-title"><%= product.name  %></h1><!-- End .product-title -->
+                                    <div class="product-single__text mb-3" style="color:black ; font-size: 13px"><p>Pan India - Free Shipping</p></div>
+                                    
+
+                                    <div class="ratings-container">
+                               
+                                      
+                                        <a class="ratings-text me-5" href="#product-review-link" id="review-link">( <%=product.reviews.length  %> Reviews )</a>
+                                   
+                                    </div><!-- End .rating-container -->
+                                        <br>
+
+                                        <label class="variants__label">Wood: <span class="js-swatch-display--2 text"><b><%=product.wood %></b></span></label>
+                                     
+                                    <div class="product-price me-2">
+                                          <br>
+
+                                      <%=productOneWithDiscount.discountedPrice %>
+
+                                        </div><!-- End .product-price -->
+
+                                        
+                      
+                               <% if(productOneWithDiscount.discount>0){ %>
+                    
+                                <h6 class="mb-0" style="text-decoration: line-through;">₹ <%= productOneWithDiscount.discountedPrice %> <span
+                                    class="badge badge-success"> Save ₹ <%=productOneWithDiscount.discount %>
+                                </span></h6> 
+                                  <% } %>
+
+                                    <div class="product-content">
+                                        <p> Good Quality</p>
+                                    </div><!-- End .product-content -->
+
+                                   <br>
+
+                                  
+
+                                    <div class="product-details-action">
+                                        <div class="details-action-col">
+
+
+                                            <% if(product.stockQuantity>0){ %>
+
+                                            <div class="product-details-quantity">
+                                                <input type="number" id="quantity" class="form-control" value="1" min="1" max="<%= product.stockQuantity  %>" step="1" data-decimals="0" required>
+                                            </div><!-- End .product-details-quantity -->
+
+                                              <a href="#" class="btn-product btn-cart" onclick="addTocart()"><span>add to cart</span></a>
+
+                                           <% }else{ %>
+                                               
+                                            <br>
+                                            <a href="#" class="btn-danger ">Out Of Stock</a>
+
+                                            <% } %>
+
+                                          
+                                        </div><!-- End .details-action-col -->
+                                         <br>
+                                        <div class="details-action-wrapper">
+                                            <a href="#" class="btn-product btn-wishlist" onclick="addToWishlist(event,'<%= product._id%>')" title="Wishlist"><span>Add to Wishlist</span></a>
+                                           
+                                        </div><!-- End .details-action-wrapper -->
+                                    
+                                    </div><!-- End .product-details-action -->
+                                        <br>
+
+                                    <div class="product-details-footer">
+                                        <div class="product-cat">
+                                            <span>Category:</span>
+                                            <a href="#"><%= product.category  %></a>
+                                            
+                                        </div><!-- End .product-cat -->
+
+                                        <div class="social-icons social-icons-sm">
+                                            <span class="social-label">Share:</span>
+                                            <a href="#" class="social-icon" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
+                                            <a href="#" class="social-icon" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
+                                            <a href="#" class="social-icon" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
+                                            <a href="#" class="social-icon" title="Pinterest" target="_blank"><i class="icon-pinterest"></i></a>
+                                        </div>
+                                    </div><!-- End .product-details-footer -->
+                                </div><!-- End .product-details -->
+                            </div><!-- End .col-md-6 -->
+
+
+
+                        </div><!-- End .row -->
+                    </div><!-- End .product-details-top -->
+
+             
+
+                    <div class="product-details-tab">
+                        <ul class="nav nav-pills justify-content-center" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="product-desc-link" data-toggle="tab" href="#product-desc-tab" role="tab" aria-controls="product-desc-tab" aria-selected="true">Description</a>
+                            </li>
+                           
+                            <li class="nav-item">
+                                <a class="nav-link" id="product-shipping-link" data-toggle="tab" href="#product-shipping-tab" role="tab" aria-controls="product-shipping-tab" aria-selected="false">Shipping & Returns</a>
+                            </li>   
+                            <li class="nav-item">
+                                <a class="nav-link" id="product-review-link" data-toggle="tab" href="#product-review-tab" role="tab" aria-controls="product-review-tab" aria-selected="false">Reviews (<%=product.reviews.length  %>)</a>
+
+                            </li>
+                            <% if(locals.user){ %>
+
+                            <% if(userReviewed==0){ %>
+                            <li>
+                                       <a href="/review?id=<%= product._id  %>" class=" btn btn-outline-dark float-end mb-3 p-2 ms-5">Rate product</a>
+                            </li>
+                            <% }else{ %>
+
+                               <li>
+                                       <a href="/editReview?id=<%=  product._id %>" class=" btn btn-outline-dark float-end mb-3 p-2 ms-5">Edit review</a>
+                               </li>
+
+                                <% } %>
+                                <% } %>
+
+
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="product-desc-tab" role="tabpanel" aria-labelledby="product-desc-link">
+                                <div class="product-desc-content">
+                                    <h3>Product Information</h3>
+                                    <p><%= product.description  %>. </p>
+                                   
+
+                                    
+                                </div><!-- End .product-desc-content -->
+                            </div><!-- .End .tab-pane -->
+                            <div class="tab-pane fade" id="product-info-tab" role="tabpanel" aria-labelledby="product-info-link">
+                                <div class="product-desc-content">
+                                    <h3>Information</h3>
+                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna viverra non, semper suscipit, posuere a, pede. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. </p>
+
+                                    <h3>Fabric & care</h3>
+                                    <ul>
+                                        <li>Faux suede fabric</li>
+                                        <li>Gold tone metal hoop handles.</li>
+                                        <li>RI branding</li>
+                                        <li>Snake print trim interior </li>
+                                        <li>Adjustable cross body strap</li>
+                                        <li> Height: 31cm; Width: 32cm; Depth: 12cm; Handle Drop: 61cm</li>
+                                    </ul>
+
+                                    <h3>Size</h3>
+                                    <p>one size</p>
+                                </div><!-- End .product-desc-content -->
+                            </div><!-- .End .tab-pane -->
+                            <div class="tab-pane fade" id="product-shipping-tab" role="tabpanel" aria-labelledby="product-shipping-link">
+                                <div class="product-desc-content">
+                                    <h3>Delivery & returns</h3>
+                                    <p>We deliver to over 100 countries around the world. For full details of the delivery options we offer, please view our Delivery information
+                                    We hope you’ll love every purchase, but if you ever need to return an item you can do so within a month of receipt. For full details of how to make a return, please view our Returns information
+                                </div><!-- End .product-desc-content -->
+                            </div><!-- .End .tab-pane -->
+                            <div class="tab-pane fade" id="product-review-tab" role="tabpanel" aria-labelledby="product-review-link">
+                            <h6>Reviews (<%=product.reviews.length  %>)</h6>
+                                     <% product.reviews.forEach((reviews)=>{ %>    
+                                            
+                                           <h6 class="text-dark mt-2" style="font-size: 1.3rem;"><strong
+                                                        class=" text-uppercase ">
+                                                        <%=reviews.user_id.userName %>
+                                                           
+                                                    </strong><i
+                                                    class="bi bi-check-circle-fill  me-2"></i>Certified
+                                                    Buyer
+                                                    <% const dd=reviews.createdAt.getDate(); const
+                                                        mm=reviews.createdAt.getMonth() + 1; const
+                                                        yyyy=reviews.createdAt.getFullYear(); const
+                                                        formattedDate=`${dd}-${mm}-${yyyy}`; %>
+                                                        <span>
+                                                            <%=formattedDate %>
+                                                        </span></h6>      
+                                <div class="reviews">
+                                    
+                                  
+                                    <div class="review">
+                                        <div class="row no-gutters">
+                                            <div class="col-auto">
+
+
+
+
+
+                                                <div class="ratings-container">
+                                                   
+
+
+
+                                       <div class="ratings">
+
+                                         
+                                         <div class="ratings-val" <% if(reviews.rating == 1){ %>
+                                             style="width: 20%"
+                                         <% } else if(reviews.rating == 2){ %>
+                                             style="width: 40%"
+                                         <% } else if(reviews.rating == 3){ %>
+                                             style="width: 60%"
+                                         <% } else if(reviews.rating == 4){ %>
+                                             style="width: 80%"
+                                         <% } else if(reviews.rating == 5){ %>
+                                             style="width: 100%"
+                                         <% } %>></div><!-- End .ratings-val -->
+
+                                             
+
+
+                                                    </div><!-- End .ratings -->
+                                                </div><!-- End .rating-container -->
+                                              
+                                            </div><!-- End .col -->
+                                            <div class="col">
+                                                <h4><%=reviews.title  %></h4>
+
+                                                <div class="review-content">
+                                                    <p><%=reviews.description  %></p>
+                                                </div><!-- End .review-content -->
+
+
+
+                                                <!-- <div class="review-action">
+                                                    <a href="#"><i class="icon-thumbs-up"></i>Helpful (2)</a>
+                                                    <a href="#"><i class="icon-thumbs-down"></i>Unhelpful (0)</a>
+                                                </div> -->
+                                                
+                                                
+                                                
+                                                <!-- End .review-action -->
+                                            </div><!-- End .col-auto -->
+                                        </div><!-- End .row -->
+                                    </div><!-- End .review -->
+
+                                   
+                                </div><!-- End .reviews -->
+
+
+                                <% }) %>
+                            </div><!-- .End .tab-pane -->
+                        </div><!-- End .tab-content -->
+                    </div><!-- End .product-details-tab -->
+
+                    <h2 class="title text-center mb-4">You May Also Like</h2><!-- End .title text-center -->
+                    <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl" 
+                        data-owl-options='{
+                            "nav": false, 
+                            "dots": true,
+                            "margin": 20,
+                            "loop": false,
+                            "responsive": {
+                                "0": {
+                                    "items":1
+                                },
+                                "480": {
+                                    "items":2
+                                },
+                                "768": {
+                                    "items":3
+                                },
+                                "992": {
+                                    "items":4
+                                },
+                                "1200": {
+                                    "items":4,
+                                    "nav": true,
+                                    "dots": false
+                                }
+                            }
+                        }'>
+
+
+
+
+                        <% if(productAll.length>0) { %>
+                          <% for(i=0;i<productAll.length;i++){ %>
+                            <% if(productAll[i].category==product.category){ %>
+                              <% if(productAll[i]._id.toString()!==product._id.toString()){ %>
+                        <div class="product product-7 text-center">
+                            <figure class="product-media">
+                                <span class="product-label label-new">New</span>
+                                <a href="/productDetail?id=<%= productAll[i]._id  %>">
+                                    <img src="<%= productAll[i].imageUrl[0] %>" alt="Product image" class="product-image">
+                                </a>
+
+                                <div class="product-action-vertical">
+                                    <a href="#" class="btn-product-icon btn-wishlist" onclick="addToWishlist(event,'<%= productAll[i]._id%>')"><span>add to wishlist</span></a>
+                            
+                                </div><!-- End .product-action-vertical -->
+
+                                <div class="product-action">
+                                    <a href="/" class="btn-product btn-cart" onclick="addTocartLike(event,'<%=productAll[i]._id%>')"><span>add to cart</span></a>
+                                </div><!-- End .product-action -->
+                            </figure><!-- End .product-media -->
+
+                            <div class="product-body">
+                                <div class="product-cat">
+                                    <a href="#"><%= productAll[i].category %></a>
+                                </div><!-- End .product-cat -->
+                                <h3 class="product-title"><a href="/productDetail?id=<%= productAll[i]._id  %>"><%= productAll[i].name  %></a></h3><!-- End .product-title -->
+                                <div class="product-price">
+
+
+                                <%=productAll[i].discountedPrice  %>
+
+
+                         <% if(productAll[i].discount>0){ %>
+                       
+                                <p class="mb-0" style="text-decoration: line-through;">₹ <%= productAll[i].price %> <span
+                                    class="badge badge-success"> Save ₹ <%= productAll[i].discount %>
+                                </span></p> 
+                         <% } %>
+
+
+
+
+
+                                </div><!-- End .product-price -->
+                                <div class="ratings-container">
+                                    
+                                    <span class="ratings-text">( <%=productAll[i].reviews.length  %> Reviews )</span>
+                                </div><!-- End .rating-container -->
+
+                             
+                            </div><!-- End .product-body -->
+                        </div><!-- End .product -->
+
+                      <% } %>
+                        <% } %>
+                        <% } %>
+                        <% } %>
+                       
+
+
+                    </div><!-- End .owl-carousel -->
+                </div><!-- End .container -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+
+ <%- include('./layouts/footerNavbar.ejs')  %>
+ <%- include('./layouts/footer.ejs')  %>
+
+
+<script>
+
+
+// <!-- for product gallery function -->
+ function changeMainImage(element) {
+       var mainImage = document.getElementById('productZoom');
+       mainImage.src = element.src;
+      }
+
+// for Zoom image 
+ const img = document.getElementById('productZoom');
+let isZoomed = false;
+
+img.addEventListener('mouseenter', function () {
+    // Apply zoom effect on mouseenter
+    if (!isZoomed) {
+        img.style.transform = 'scale(2.5)';
+        img.style.transition = 'transform 0.5s ease'; // Optional: Add a transition for smooth effect
+        isZoomed = true;
+    } 
+});
+
+img.addEventListener('mousemove', function (e) {
+    if (isZoomed) {
+        const boundingBox = img.getBoundingClientRect();
+        const offsetX = (e.clientX - boundingBox.left) / boundingBox.width;
+        const offsetY = (e.clientY - boundingBox.top) / boundingBox.height;
+
+        // Move the image according to mouse movement
+        img.style.transformOrigin = `${offsetX * 100}% ${offsetY * 100}%`;
+    }
+});
+
+img.addEventListener('mouseleave', function () {
+    // Reset to normal size on mouseleave
+    img.style.transform = '';
+    isZoomed = false;
+});
+
+</script>
+
+
+
+<script >
+
+async function addTocart() {
+
+  try {
+
+    
+    console.log('Function started');
+    
+
+    const productId = document.getElementById("productId").value;
+    const quantity = document.getElementById("quantity").value;
+
+
+    // const productPriceElement = document.getElementById('productPrice_'+productId).value
+
+    // const productPrice= parseInt(productPriceElement,10)
+
+   
+
+    const data = {
+      productId: productId,
+      quantity: quantity,
+    };
+
+console.log('Data:', data);
+
+
+console.log('Before Axios request');
+const response = await axios.post("/addToCart", data);
+console.log('After Axios request');
+
+
+                  if (response.data.success) {
+                                Swal.fire({
+                                    title: "Success",
+                                    text: "Product added to cart",
+                                    icon: "success",
+                                    showCancelButton: true,
+                                    confirmButtonText: "Go to Cart", // Text for the "Go to Cart" button
+                                    cancelButtonText: "Cancel", // Text for the "Cancel" button
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        // Redirect to the cart page when the "Go to Cart" button is clicked
+                                        window.location.href = "/cart"; // Replace "/cart" with your actual cart page URL
+                                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                        // Handle the cancel action if needed (not needed in this case)
+                                    }
+                                });
+
+                            } else if (response.data.limited) {
+                                Swal.fire({
+                                    title: "Error",
+                                    text: 'Sorry!Product stock exceeded',
+                                    icon: 'error',
+                                    timer: 2000
+                                })
+
+                            } else {
+                                Swal.fire({
+                                    title: "Error adding to cart",
+                                    text: "Please login to continue",
+                                    icon: "error",
+                                    showCancelButton: true,
+                                    confirmButtonText: "Login", // Text for the login button
+                                    cancelButtonText: "Cancel", // Text for the cancel button
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        // Redirect to the login section when the "Login" button is clicked
+                                        window.location.href = "/userSignIn"; // Replace "/login" with your actual login page URL
+                                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                        // Handle the cancel action if needed (not needed in this case)
+                                    }
+                                });
+
+
+                            }
+                        
+
+        }catch (error) {
+  console.error('An error occurred during the request', error);
+}
+
+}
+
+
+  
+async function addTocartLike(event,productId) {
+
+  try {
+event.preventDefault()
+    
+    console.log('Function started');
+    
+
+    const quantity = document.getElementById("quantity").value;
+
+
+    // const productPriceElement = document.getElementById('productPrice_'+productId).value
+
+    // const productPrice= parseInt(productPriceElement,10)
+
+   
+
+    const data = {
+      productId: productId,
+      quantity: quantity,
+    };
+
+console.log('Data:', data);
+
+
+console.log('Before Axios request');
+const response = await axios.post("/addToCart", data);
+console.log('After Axios request');
+
+
+                  if (response.data.success) {
+                                Swal.fire({
+                                    title: "Success",
+                                    text: "Product added to cart",
+                                    icon: "success",
+                                    showCancelButton: true,
+                                    confirmButtonText: "Go to Cart", // Text for the "Go to Cart" button
+                                    cancelButtonText: "Cancel", // Text for the "Cancel" button
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        // Redirect to the cart page when the "Go to Cart" button is clicked
+                                        window.location.href = "/cart"; // Replace "/cart" with your actual cart page URL
+                                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                        // Handle the cancel action if needed (not needed in this case)
+                                    }
+                                });
+
+                            } else if (response.data.limited) {
+                                Swal.fire({
+                                    title: "Error",
+                                    text: 'Sorry!Product stock exceeded',
+                                    icon: 'error',
+                                    timer: 2000
+                                })
+
+                            } else {
+                                Swal.fire({
+                                    title: "Error adding to cart",
+                                    text: "Please login to continue",
+                                    icon: "error",
+                                    showCancelButton: true,
+                                    confirmButtonText: "Login", // Text for the login button
+                                    cancelButtonText: "Cancel", // Text for the cancel button
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        // Redirect to the login section when the "Login" button is clicked
+                                        window.location.href = "/userSignIn"; // Replace "/login" with your actual login page URL
+                                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                        // Handle the cancel action if needed (not needed in this case)
+                                    }
+                                });
+
+
+                            }
+                        
+
+        }catch (error) {
+  console.error('An error occurred during the request', error);
+}
+
+}
+
+
+async function addToWishlist(event,productId){
+  try {
+   event.preventDefault()
+
+ 
+    const response=await axios.put('/wishlist',{productId})
+
+    if(response.data.success==true){
+      const {count}  =response.data
+
+   Swal.fire({
+  title: 'Success!',
+  text: 'Your product has been added to the wishlist.',
+  icon: 'success',
+  confirmButtonColor: '#4caf50', // You can customize the color if needed
+  confirmButtonText: 'Great!',
+});
+
+    }else if(response.data.success==false){
+   Swal.fire({
+  title: 'Oops!',
+  text: 'This product is already in your wishlist.',
+  icon: 'info',
+  confirmButtonColor: '#ff9800', // You can customize the color if needed
+  confirmButtonText: 'Got it!',
+});
+
+    } else if(response.data.login==true) {
+                            Swal.fire({
+                                    title: "Error adding to cart",
+                                    text: "Please login to continue",
+                                    icon: "error",
+                                    showCancelButton: true,
+                                    confirmButtonText: "Login", // Text for the login button
+                                    cancelButtonText: "Cancel", // Text for the cancel button
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        // Redirect to the login section when the "Login" button is clicked
+                                        window.location.href = "/userSignIn"; // Replace "/login" with your actual login page URL
+                                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                        // Handle the cancel action if needed (not needed in this case)
+                                    }
+                                });
+
+
+                            }
+   
+   } catch (error) {
+    console.log(error.message);
+  }
+
+  }
+
+
+</script>
+
+
+
+
+
+

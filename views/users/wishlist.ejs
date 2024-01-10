@@ -1,0 +1,260 @@
+<%- include('./layouts/header.ejs') %>
+
+<link rel="stylesheet" href="/assets/css/wishlist.css">
+
+<%- include('./layouts/headerNavbar.ejs')  %>
+    <!-- END nav -->
+
+
+       
+
+         
+   
+       <div id="header">
+         <h1 style="color: rgb(0, 0, 0); text-align: center;">Wishlist</h1>
+       </div>
+        <div class="container ms-5 me-5 mt-3">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="product_details_breadcrumb">
+                <a href="/">Home</a> <span>/</span>
+                <span class="text-primary" >Wishlist</span>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- END nav -->
+        <section class="ftco-section ftco-cart">
+            <div id="reloadDiv">
+			<div class="container">
+				<div class="row">
+    			<div class="col-md-12 ftco-animate">
+    				<div class="cart-list" style="overflow-x: hidden;">
+                        <%if(wishlist.length>0){%>
+	    				<table class="table" >
+						    <thead class="thead-primary">
+						      <tr class="text-center">
+						    
+						        <th>Product</th>
+                     <th>Name</th>
+						        <th>Price</th>
+						        <th>Stock status</th>
+						        <th></th>
+						      </tr>
+						    </thead>
+						    <tbody>
+                                <%
+                                wishlist.forEach((item)=>{ %>
+						      <tr class="text-center" id="deleteId-<%=item._id %>">
+						      
+						        
+						        <td class="image-prod">
+                                    <% if (item.product_id.imageUrl.length > 0) { %>
+                                    <a href="/productDetail?id=<%= item.product_id._id %>">    
+                                    <div class="img-fluid" style="width:12rem ; height: auto;"><img src="<%= item.product_id.imageUrl[0] %>" alt=""></div>
+                                    </a>
+                                    <% } %>
+                                </td>
+						        
+						        <td class="product-name">
+                                    <a href="/productDetail?id=<%= item.product_id._id %>">    
+                                    <h4><%= item.product_id.name %></h4> 
+                                    </a>
+						        
+						        </td>
+						        
+						        <td class="price">₹<%= calculateItemPrice(item.product_id,1, item.offerPercentage).toFixed(0) %></td>
+                                <input type="hidden" id="productPrice_<%=item.product_id._id  %>" value="<%=item.productPrice  %>">
+                                   <input type="hidden" id="quantity" value="1">
+						        
+                                <td class="quantity">
+                                    <%if(item.product_id.stockQuantity > 0 ){%>
+                                      <h6 class="text-success mt-1">In Stock</h6>
+                                      <% }else{%>
+                                      <h6 class="text-danger mt-1">Out Of Stock</h6>
+                                    <% } %>
+                                </td>
+
+                                <input type="hidden" name="" id="product-<%=item.product_id._id%>" value="<%= item.product_id.quantity%>">
+
+                                <% if (item.product_id.stockQuantity > 0) { %>
+
+						        <td class="total"> <button class="btn-md-rounded btn-primary " onclick="addToCart(event, '<%=item.product_id._id%>')" style="width: fit-content;">Add to cart</button></td>
+                                 <% } %>
+                                   <td style="height: 100px;"><a href="#" onclick="deleteWishlist(event,'<%=item._id%>')" style="color: black; font-size: 30px;"><i class="fa-solid fa-trash"></i></a></td>
+						        </tr><!-- END TR-->
+                              <% })
+                              %>
+          
+                                      </tbody>
+                                    </table>
+                        <% }else{%>
+                          <div class="empty-wishlist" id="empty-wishlists">
+                            <div class="empty-wishlist-content">
+                              <h3>Your Wishlist is Empty</h3>
+                              <p>Start exploring our products and add items to your wishlist!</p>
+                              <a href="/productList" class="btn btn-primary">Browse Products</a>
+                            </div>
+                          </div>
+                        <%}%> 
+
+						  
+						    </tbody>
+						  </table>
+					  </div>
+    			</div>
+    		</div>
+    
+			</div>
+            </div>
+		</section>
+
+        <%- include('./layouts/footerNavbar.ejs')  %>
+
+     <%- include('./layouts/footer.ejs')  %>
+
+<script>
+   
+
+  async function addToCart(event,productId) {
+
+  try {
+     event.preventDefault(); // Prevents the default form submission behavior
+
+  const quantity=  document.getElementById('quantity').value
+  console.log('Function started');
+  console.log('Function started');
+  console.log('ProductId:', productId);
+
+
+
+
+
+    const data = {
+      productId: productId,
+      quantity:quantity,
+     
+    };
+
+console.log('Data:', data);
+
+
+console.log('Before Axios request');
+const response = await axios.post("/addToCart", data);
+console.log('After Axios request');
+    if (response.data.success) {
+                                Swal.fire({
+                                    title: "Success",
+                                    text: "Product added to cart",
+                                    icon: "success",
+                                    showCancelButton: true,
+                                    confirmButtonText: "Go to Cart", // Text for the "Go to Cart" button
+                                    cancelButtonText: "Cancel", // Text for the "Cancel" button
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        // Redirect to the cart page when the "Go to Cart" button is clicked
+                                        window.location.href = "/cart"; // Replace "/cart" with your actual cart page URL
+                                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                        // Handle the cancel action if needed (not needed in this case)
+                                    }
+                                });
+
+                            } else if (response.data&&response.data.limited) {
+                                Swal.fire({
+                                    title: "Error",
+                                    text: 'Sorry!Product stock exceeded',
+                                    icon: 'error',
+                                    timer: 2000
+                                })
+
+                            } else {
+                                Swal.fire({
+                                    title: "Error adding to cart",
+                                    text: "Please login to continue",
+                                    icon: "error",
+                                    showCancelButton: true,
+                                    confirmButtonText: "Login", // Text for the login button
+                                    cancelButtonText: "Cancel", // Text for the cancel button
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        // Redirect to the login section when the "Login" button is clicked
+                                        window.location.href = "/userSignIn"; // Replace "/login" with your actual login page URL
+                                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                        // Handle the cancel action if needed (not needed in this case)
+                                    }
+                                });
+
+
+                            }
+                        
+
+        }catch (error) {
+  console.error('An error occurred during the request', error);
+}
+
+}
+
+
+async function deleteWishlist(event,productId){
+    try {
+        event.preventDefault()
+          Swal.fire({
+                            title: 'Are you sure?',
+                            text: "You want to delete!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButton: '#3085d6',
+                            cancelButton: '#d33',
+                            confirmButtonText: 'Yes, remove!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.ajax({
+                                    url: '/deleteWishlist',
+                                    data: {
+                                        wishlistId: productId
+                                    },    
+                                    method: 'post',
+                                    success: (response) => {
+                                        if (response.success) {
+
+                                            $('#reloadDiv').load('/wishlist #reloadDiv', () => {
+
+                                                Swal.fire({
+                                                    title: 'Deleted!',
+                                                    text: 'Your item has been deleted.',
+                                                    icon: 'success',
+                                                    timer: 1500,
+                                                    showConfirmButton: false
+                                                });
+                                            });
+                                        } else {
+                                            Swal.fire({
+                                                title: 'Error!',
+                                                text: 'Failed to delete item.',
+                                                icon: 'error',
+                                                showConfirmButton: false
+                                            });
+                                        }
+                                    },
+                                    error: (error) => {
+                                        console.log(error);
+                                        Swal.fire({
+                                            title: 'Error!',
+                                            text: 'An error occurred while deleting the item.',
+                                            icon: 'error',
+                                            showConfirmButton: false
+                                        });
+                                    }
+                                });
+                            }
+                        });
+    } catch (error) {
+        console.log(error.message);
+        next(error)
+    }
+}
+
+
+
+     </script>

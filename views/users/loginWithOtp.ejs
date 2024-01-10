@@ -1,0 +1,127 @@
+<%- include('./layouts/header.ejs')  %>
+<%- include('./layouts/headerNavbar.ejs')  %>
+
+  <!-- End header -->
+
+  <main class="main">
+    <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+      <!-- End .container -->
+    </nav>
+    <!-- End .breadcrumb-nav -->
+
+    <div
+      class="login-page bg-image pt-8 pb-8 pt-md-12 pb-md-12 pt-lg-17 pb-lg-17"
+      style="background-image: url('assets/images/backgrounds/loginsignup.jpg')"
+    >
+      <div class="container">
+        <div class="form-box">
+          <div class="form-tab">
+            <ul class="nav nav-pills nav-fill" role="tablist">
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  id="register-tab-2"
+                  data-toggle="tab"
+                  href="#register-2"
+                  role="tab"
+                  aria-controls="register-2"
+                  aria-selected="true"
+                  >Sign in</a
+                >
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div
+                class="tab-pane fade"
+                id="signin-2"
+                role="tabpanel"
+                aria-labelledby="signin-tab-2"
+              >
+                <!-- End .form-choice -->
+              </div>
+              <!-- .End .tab-pane -->
+              <div
+                class="tab-pane fade show active"
+                id="register-2"
+                role="tabpanel"
+                aria-labelledby="register-tab-2"
+              >
+                <form action="" id="loginOtpForm">
+                  <div class="form-group">
+                    <label for="Your email">Provide your email to receive an OTP in your inbox for verification*</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="email"
+                      name="email"
+                      required
+                    />
+                  </div>
+
+                  <!-- End .form-group -->
+
+                  
+
+                  <!-- End .form-group -->
+
+                  <div class="form-footer">
+                    <button type="submit" onclick="loginWithOtp(event)" class="btn btn-outline-primary-2">
+                      <span>Submit</span>
+                      <i class="icon-long-arrow-right"></i>
+                    </button>
+
+                    <!-- <a class="text-decoration-none" href="/userResendOtp">Resend Otp</a> -->
+                   
+                    <!-- End .custom-checkbox -->
+                  </div>
+                  <!-- End .form-footer -->
+                </form>
+
+                <% if (typeof message!=='undefined'){ %>
+                <p class="text-center text-success"><%= message%></p>
+                <% } %>
+
+                <!-- End .form-choice -->
+              </div>
+              <!-- .End .tab-pane -->
+            </div>
+            <!-- End .tab-content -->
+          </div>
+          <!-- End .form-tab -->
+        </div>
+        <!-- End .form-box -->
+      </div>
+      <!-- End .container -->
+    </div>
+    <!-- End .login-page section-bg -->
+  </main>
+  <!-- End .main -->
+
+  <!--Footer Start-->
+<%- include('./layouts/footerNavbar.ejs')  %>
+<%- include('./layouts/footer.ejs')  %>
+
+<script>
+
+  async function loginWithOtp(event){
+    event.preventDefault()
+
+   const formData= $('#loginOtpForm').serialize()
+
+   $.ajax({
+    type:'POST',
+    url:'/loginWithOtp',
+    data:formData,
+
+    success:function(response){
+      if(response.success==true){
+        let userId=response.id
+         
+          window.location.href=`/authentication?id=${userId}`
+      }
+
+    }
+   })
+  }
+</script>
+

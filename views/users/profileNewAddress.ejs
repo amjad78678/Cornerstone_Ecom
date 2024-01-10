@@ -1,0 +1,92 @@
+
+<%- include('./layouts/header.ejs')  %>
+<%- include('./layouts/headerNavbar.ejs')  %>
+
+        <main class="main">
+        	<div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+        		<div class="container">
+        			<h1 class="page-title">New Address<span>Profile</span></h1>
+        		</div><!-- End .container -->
+        	</div><!-- End .page-header -->
+            <nav aria-label="breadcrumb" class="breadcrumb-nav">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">Profile</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">New Address</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+            <div class="page-content">
+            	<div class="checkout">
+	                <div class="container">
+            			<div class="checkout-discount">
+            				
+            			</div><!-- End .checkout-discount -->
+            			<form action="#" method="post">
+		                	<div class="row">
+		                		<div class="col-lg-12">
+		                			<h2 class="checkout-title">New Details</h2><!-- End .checkout-title -->
+		                				<div class="row">
+		                					<div class="col-sm-12">
+		                						<label> Name *</label>
+		                						<input type="text" name="name" class="form-control" required>
+		                					</div><!-- End .col-sm-6 -->
+
+		                					
+		                				</div><!-- End .row --> 
+
+	            						
+
+	            						<label>Phone Number *</label>
+	            						<input type="text" name="phone" class="form-control" required>
+
+	            						<label>Street address *</label>
+	            						<input type="text" name="streetAddress" class="form-control" placeholder="House name and Street name" required>
+	            					
+
+	            						<div class="row">
+		                					<div class="col-sm-6">
+		                						<label> City *</label>
+		                						<input type="text" name="city" class="form-control" required>
+		                					</div><!-- End .col-sm-6 -->
+
+		                					<div class="col-sm-6">
+		                						<label>State  *</label>
+		                						<input name="state" type="text" class="form-control" required>
+		                					</div><!-- End .col-sm-6 -->
+		                				</div><!-- End .row -->
+
+		                				<div class="row">
+		                					<div class="col-sm-6">
+		                						<label>Pin Code *</label>
+		                						<input type="text" name="pincode" class="form-control" required>
+		                					</div><!-- End .col-sm-6 -->
+
+		                					<div class="col-sm-6">
+		                						<label>Email *</label>
+		                						<input type="text" name="email" class="form-control" required>
+		                					</div><!-- End .col-sm-6 -->
+		                				</div><!-- End .row -->
+                               <br>
+	                        <button class="btn btn-primary" type="submit">Add New</button>
+
+
+
+	        							
+
+										
+
+                                        
+		                		</div><!-- End .col-lg-9 -->
+		                		
+		                	</div><!-- End .row -->
+            			</form>
+	                </div><!-- End .container -->
+                </div><!-- End .checkout -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+
+<%- include('./layouts/footer.ejs')  %>
+<%- include('./layouts/footerNavbar.ejs')  %>

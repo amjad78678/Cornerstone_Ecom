@@ -1,0 +1,43 @@
+
+  .container {
+    margin-top: 20px;
+  }
+
+  .order-status-bar {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .progress {
+    height: 25px;
+    border-radius: 8px;
+  }
+
+  .progress-bar {
+    border-radius: 8px;
+  }
+
+  .order-status-labels {
+    padding: 10px;
+    text-align: center;
+  }
+
+  .order-status-label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #495057;
+    opacity: 0.7;
+  }
+
+  .order-status-label.active {
+    color: #007bff;
+    opacity: 1;
+  }
+
+  /* Adjustments for responsiveness */
+  @media (max-width: 576px) {
+    .order-status-label {
+      font-size: 12px;
+    }
+  }

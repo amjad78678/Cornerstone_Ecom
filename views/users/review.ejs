@@ -1,0 +1,130 @@
+<%- include('./layouts/header.ejs')  %>
+<link rel="stylesheet" href="/assets/css/review.css">
+<%- include('./layouts/headerNavbar.ejs')  %>
+
+
+
+
+
+<section>
+    <div class="container">
+        <div class="heading row mt-4 card rounded-0 border-0">
+            <div class="p-3">
+                <h3>RATING & REVIEW</h3>
+            </div>
+        </div>
+        <div class="main mt-3">
+            <div class="row">
+                <div class="col-md-3 card p-3 rounded-0">
+                    <div class="section1">
+                        <h5>What makes a good review..</h5>
+                    </div>
+                    <hr>
+                    <div>
+                        <span style="font-size: 1.2rem;">Why review a product?</span><br>
+                        <p class="mt-2">Your valuable feedback will help fellow shoppers decide!</p>
+                        <hr>
+                    </div>
+                    <div>
+                        <span style="font-size: 1.2rem;">How to review a product?</span><br>
+                        <p class="mt-2">Your review should include facts. An honest opinion is always
+                            appreciated.
+                            If you have an issue with the product or service please contact us from the help
+                            centre.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-9 card rounded-0 p-2 mt-4 mt-md-0 ">
+                    <% if(productPurchased==1) {%>
+                        <form action="/review/<%=productId  %>" id="ratingForm" onsubmit="return check(event,'<%= productId%>')">
+                            <div class="p-3">
+                                <div>
+                                    <h4>Rate this product</h4>                                    
+                                    <div class="form-group">
+                                
+                                        <div class="rate rating text-start justify-content-end">
+                                          <input type="radio" id="star5" name="rate" value="5" />
+                                          <label for="star5" title="text">5 stars</label>
+                                          <input type="radio" id="star4" name="rate" value="4" />
+                                          <label for="star4" title="text">4 stars</label>
+                                          <input type="radio" id="star3" name="rate" value="3" />
+                                          <label for="star3" title="text">3 stars</label>
+                                          <input type="radio" id="star2" name="rate" value="2" />
+                                          <label for="star2" title="text">2 stars</label>
+                                          <input type="radio" id="star1" name="rate" value="1" />
+                                          <label for="star1" title="text">1 star</label>
+                                        </div><br><br>
+                                        <p style="float: left;" id="rating-error" class="text-danger mt-2"></p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div>
+                                    <h4>Review this product</h4>
+                                    <div class="mt-4">
+                                        <input type="text" name="title" class="form-control form-control-lg rounded-0"
+                                            id="" placeholder="Review Title..." required>
+                                        <textarea name="description" id=""
+                                            class="w-100 mt-4 form-control-lg form-control rounded-0"
+                                            placeholder="Description..." required></textarea>
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    <button type="submit" id="submitButton"
+                                        class="btn btn-dark rounded-0 w-25 mt-3">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                        <%} else{%>
+                            <br>
+                             <h3 class="text-center">Haven't purchased this product? / Your product is not yet delivered to your hands?</h3>
+                            <div class="text-center my-auto d-flex justify-content-center align-items-center ms-4">
+                                <div class="text-center d-flex justify-content-center">
+                                   
+                                <p class="text-secondary"></p>
+                                </div>
+                                <img src="assets/images/extraImages/Digital-marketing-tips-for-eCommerce-Marketing.gif"  width="400rem" class="img-fluid rounded-5" alt="">
+                            </div>
+                            <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<%- include('./layouts/footerNavbar.ejs')  %>
+<%- include('./layouts/footer.ejs')  %>
+
+
+<script>
+ async function check(event,productId) {
+    event.preventDefault()
+
+        const radioButtons = document.querySelectorAll('input[type="radio"]');
+        const errorMessage = document.getElementById('rating-error');
+  
+        let isRadioButtonSelected = false;
+        radioButtons.forEach(function (radioButton) {
+            if (radioButton.checked) {
+                isRadioButtonSelected = true;
+            }
+        });
+        if (!isRadioButtonSelected) {
+    
+            errorMessage.innerHTML = 'Please select rating'
+            return false
+        }
+
+         
+
+
+       const verifyData= $('#ratingForm').serialize()
+       const response =await axios.post('/review/<%=productId %>',{verifyData})
+
+       if(response.data.success==true){
+        window.location.href=`/productDetail?id=${productId}`
+     
+       }
+
+      return true
+   
+    };
+</script>

@@ -1,0 +1,42 @@
+ 
+        /* Custom CSS to make the table full width */
+        section.bg-white {
+            padding: 40px 0; /* Adjust padding as needed */
+        }
+
+        .main-div {
+            max-width: 100%; /* Set the maximum width */
+            margin: 0 auto; /* Center the content */
+        }
+
+        .shopping__cart__table {
+            width: 100%;
+            overflow-x: auto; /* Enable horizontal scrolling if needed */
+        }
+
+        .shopping__cart__table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .shopping__cart__table table th,
+        .shopping__cart__table table td {
+            padding: 15px;
+            border: 1px solid #e6e6e6;
+            text-align: center;
+        }
+        .product__cart__item__container {
+  display: flex;
+  align-items: center; /* Center items vertically */
+}
+
+.product__cart__item__pic {
+  margin-right: 10px; /* Adjust margin as needed */
+}
+
+.product__cart__item__text h6 {
+  margin: 0; /* Remove default margin for h6 */
+}
+
+
+

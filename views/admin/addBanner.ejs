@@ -1,0 +1,254 @@
+             
+                
+   <%- include('./layouts/header.ejs')  %>
+ <%- include('./layouts/headerNav.ejs')  %>
+
+
+
+
+
+          <main class="main-wrap">
+            <header class="main-header navbar">
+                <div class="col-search">
+                    <form class="searchform">
+                        <div class="input-group">
+                            <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
+                            <button class="btn btn-light bg" type="button"><i class="material-icons md-search"></i></button>
+                        </div>
+                        <datalist id="search_terms">
+                            <option value="Products"></option>
+                            <option value="New orders"></option>
+                            <option value="Apple iphone"></option>
+                            <option value="Ahmed Hassan"></option>
+                        </datalist>
+                    </form>
+                </div>
+                <div class="col-nav">
+                    <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i class="material-icons md-apps"></i></button>
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon" href="#">
+                                <i class="material-icons md-notifications animation-shake"></i>
+                                <span class="badge rounded-pill">3</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
+                        </li>
+                        <li class="dropdown nav-item">
+                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i class="material-icons md-public"></i></a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
+                                <a class="dropdown-item text-brand" href="#"><img src="assetsAdmin/imgs/theme/flag-us.png" alt="English" />English</a>
+                                <a class="dropdown-item" href="#"><img src="assetsAdmin/imgs/theme/flag-fr.png" alt="Français" />Français</a>
+                                <a class="dropdown-item" href="#"><img src="assetsAdmin/imgs/theme/flag-jp.png" alt="Français" />日本語</a>
+                                <a class="dropdown-item" href="#"><img src="assetsAdmin/imgs/theme/flag-cn.png" alt="Français" />中国人</a>
+                            </div>
+                        </li>
+                        <li class="dropdown nav-item">
+                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="assetsAdmin/imgs/people/avatar-2.png" alt="User" /></a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                                <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-account_balance_wallet"></i>Wallet</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help center</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="#"><i class="material-icons md-exit_to_app"></i>Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+
+
+    <section class="container-fluid">
+        <div class="row">
+          <div class="card mb-4" style="max-width: 500px">
+            <div class="card-body">
+              <h4 class="card-title">Add Banner</h4>
+                 <% if (typeof message !== 'undefined' && message ) { %>
+
+ <div id="errorContainer" class="alert alert-danger" style="display: block;"><%=message  %></div>
+
+                <% }else{ %>
+  <div id="errorContainer" class="alert alert-danger" style="display: none;"></div>
+
+                    <% } %>
+                  <div id="reloadDiv">
+                  <form id="bannerForm" method="post" style="max-width: 430px;" class="forms-sample" enctype="multipart/form-data" onsubmit="return validateForm()">
+
+                         <div class="form-group mb-4">
+                      <label for="coupon-name" class="form-label">Banner Title</label>
+                      <input type="text" class="form-control" id="banner-title" name="title" placeholder="Enter banner title"
+                        required>
+                        <span id="nameError" class="text-danger"></span>
+                    </div>
+
+                    
+
+                    <div class="form-group mb-4">
+                      <label class="form-label" for="">Description</label>
+                      <textarea placeholder="Enter description" class="form-control" rows="4"
+                       id="banner-description" name="bannerDescription" required>
+                      </textarea>
+                     <span id="descriptionError" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="form-label" for="">Event</label>   
+                        <input type="text" class="form-control" id="banner-event" name="bannerEvent" placeholder="Enter event name" required>
+                        <span id="eventError" class="text-danger"></span>
+                    </div>
+                    
+
+                    <div class="form-group mb-4">
+                        <label for="form-label">Banner Image</label>
+                
+
+                            <div class="input-upload">
+                                <input id="bannerImage" name="bannerImage" accept="image/*"
+                                    class="form-control" type="file"  />
+                             <span id="imageError" class="text-danger"></span>
+                            </div>
+                    </div>
+                   
+  
+
+           
+
+                    <div class="mt-4">
+                      <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                      <a href="/admin/" class="btn btn-secondary">Cancel</a>
+                    </div>
+
+                  </form>
+                </div>
+
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
+
+             <footer class="main-footer font-xs">
+                <div class="row pb-30 pt-15">
+                    <div class="col-sm-6">
+                        <script>
+                            document.write(new Date().getFullYear());
+                        </script>
+                        &copy; Nest - HTML Ecommerce Template .
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="text-sm-end">All rights reserved</div>
+                    </div>
+                </div>
+            </footer>
+        </main>
+
+
+
+
+
+
+             <footer class="main-footer font-xs">
+                <div class="row pb-30 pt-15">
+                    <div class="col-sm-6">
+                        <script>
+                            document.write(new Date().getFullYear());
+                        </script>
+                        &copy; Nest - HTML Ecommerce Template .
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="text-sm-end">All rights reserved</div>
+                    </div>
+                </div>
+            </footer>
+        </main>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="assetsAdmin/js/vendors/jquery-3.6.0.min.js"></script>
+        <script src="assetsAdmin/js/vendors/bootstrap.bundle.min.js"></script>
+        <script src="assetsAdmin/js/vendors/select2.min.js"></script>
+        <script src="assetsAdmin/js/vendors/perfect-scrollbar.js"></script>
+        <script src="assetsAdmin/js/vendors/jquery.fullscreen.min.js"></script>
+
+
+<!-- DataTables JS jquery pagination search -->
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
+        <!-- DataTables CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+
+
+
+<script>
+  setTimeout(function() {
+    var errorContainer = document.getElementById('errorContainer');
+    if (errorContainer) {
+      errorContainer.style.display = 'none';
+    }
+  }, 2000);
+
+
+
+function validateForm(){
+
+    const title=document.getElementById('banner-title').value
+    const description=document.getElementById('banner-description').value
+    const event=document.getElementById('banner-event').value
+    const imageInput = document.getElementById('bannerImage');
+
+ const nameRegex = /^[a-zA-Z\s]+$/;
+ const descriptionRegex = /^[a-zA-Z0\s.,;:'"()?!]+$/m;
+
+  if (!nameRegex.test(title)) {
+    document.getElementById('nameError').innerHTML = 'Title should only contain alphabets';
+    return false;
+  } else {
+    document.getElementById('nameError').innerHTML = '';
+  }
+
+    if (!descriptionRegex.test(description)) {
+    document.getElementById('descriptionError').innerHTML = 'Description should only contain alphabets';
+    return false;
+  } else {
+    document.getElementById('descriptionError').innerHTML = '';
+  }
+  
+      if (!nameRegex.test(event)) {
+    document.getElementById('eventError').innerHTML = 'Event should only contain alphabets';
+    return false;
+  } else {
+    document.getElementById('eventError').innerHTML = '';
+  }
+
+   // Check if the file input is empty
+    if (!imageInput.files.length) {
+        document.getElementById('imageError').innerHTML = 'Please select an image';
+        return false;
+    } else {
+        document.getElementById('imageError').innerHTML = '';
+    }
+
+
+
+  return true
+
+}
+
+
+
+</script>
+
+        <!-- Main Script -->
+<script src="assetsAdmin/js/main.js?v=1.1" type="text/javascript"></script>
+    </body>
+</html>
+
+

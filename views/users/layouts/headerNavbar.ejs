@@ -1,0 +1,99 @@
+
+</head>
+
+<body>
+
+<div class="page-wrapper">
+  <!--Header start-->
+
+  <header class="navbar navbar-expand-lg bg-body-tertiary mt--3">
+    <div class="container-fluid p-4">
+      <a class="navbar-brand" href="#">
+        <img
+          width="250rem"
+          height="250rem"
+          src="https://imgs.search.brave.com/IS3ECAw-N7V5vfLuJOPJQwYn0zPRLDKKDI5LT2JFpxU/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/Y3NvZGJyYW5kLmNv/bS93cC1jb250ZW50/L3VwbG9hZHMvMjAy/MS8xMC9Db3JuZXJz/dG9uZS1Mb2dvLUhv/cml6b250YWwucG5n"
+          alt=""
+        />
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+      
+      </button>
+     
+        <div class="ms-auto float-end"> 
+          <a class="me-4 text-dark" href="/">Home</a>
+          <a class="me-4 text-dark" <% if(locals.user){ %>
+                href="/productList">
+            <% }else{ %>
+              href="/productList">
+              
+              <% } %>Shop</a>
+          <a class="me-4 text-dark" href="/aboutUs">About Us</a>
+          
+          <a class="me-4 text-dark" href="/contactUs">Contact Us </a>
+          <a class="me-3 text-dark" href="/cart "><%   if(locals.user){  %>
+            
+            
+            <i class="fas fa-shopping-cart"></i>
+            
+            <% } %></a>
+          <a href="/wishlist"><% if(locals.user){  %>
+              <i class="me-3 fa-regular fa-heart"></i>
+            <% } %></a>
+          
+
+          <div class="dropdown d-inline">
+            <button
+              class="btn-md btn-secondary dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton1"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="fa-regular fa-user" style="margin-left: 5px; font-size: small;">
+                <% if (locals.user){%>
+               <%= user.userName%>
+                 <%} %></i>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li><a class="dropdown-item" <% if(locals.user) { %> 
+                    href="/userProfile">
+                <% }else{ %>
+                 href="/userSignIn">
+                  <% } %>
+               
+                <% if(locals.user){ %>
+                   My profile
+
+               <%  }else{%>
+                  Login
+
+              <%   }%>
+              </a></li>
+              <li><a class="dropdown-item" <% if(locals.user) {%> 
+                   href="/userLogout">
+                <% }else{ %>
+                    href="/userRegister">
+                  <% } %>
+                <% if(locals.user){ %>
+                   Logout
+
+               <%  }else{%> 
+                  Sign Up
+
+              <%   }%>
+              </a></li>
+            </ul>
+          </div>
+        </div>
+
+    </div>
+  </header>

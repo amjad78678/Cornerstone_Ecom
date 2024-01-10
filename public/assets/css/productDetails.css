@@ -1,0 +1,20 @@
+.product-image-gallery {
+    display: flex;
+}
+
+.imgPrd {
+    max-width: 100%; /* Ensure images don't exceed their container width */
+    height: auto;    /* Maintain aspect ratio */
+}
+
+/* Media query for smaller screens (e.g., mobile devices) */
+@media only screen and (max-width: 992px) {
+    .product-image-gallery {
+        flex-wrap: wrap; /* Allow items to wrap onto multiple lines */
+    }
+
+    .imgPrd {
+        max-width: 25%; /* Adjust max-width as needed for your layout */
+        height: auto;    /* Maintain aspect ratio */
+    }
+}

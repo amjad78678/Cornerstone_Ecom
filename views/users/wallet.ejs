@@ -1,0 +1,173 @@
+<%- include('./layouts/header.ejs')  %>
+<%- include('./layouts/headerNavbar.ejs')  %>
+
+
+
+<div class="container mt-4">
+  <div class="d-flex align-items-center justify-content-between">
+    <h3></h3>
+    <a href="/userProfile" class="btn btn-md btn-success mt-3">Back</a>
+  </div>
+  <br>
+  <div class="card">
+  <div class="card-body">
+    <h5 class="card-title mb-1">Wallet Balance <span class="mt-1" style="float: right;"> <button type="button" class="btn btn-dark rounded-0 my-1 text-center" data-bs-toggle="modal" data-bs-target="#form">
+              ADD TO WALLET <i class="bi bi-plus-lg"></i>
+            </button></span></h5>
+    <p class="card-text">₹<%= user.wallet.toFixed(0)%></p>
+    <!-- You can replace $500.00 with your actual wallet balance value -->
+
+    <!-- Add any additional information or buttons as needed -->
+  </div>
+</div>
+<br>
+  <div class="row">
+    <div class="col-12">
+      <h3>Wallet History</h3>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover text-center">
+          <thead class="thead-dark">
+            <tr>
+              <th class="ms-2">Date</th>
+              <th>Amount</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+       <% walletHistory.forEach((wallet)=>{ %>
+              <tr> 
+              <td class="ms-2"><%= wallet.wallet_history.date.toISOString().substr(0, 10)  %></td>
+                  <% if(wallet.wallet_history.amount>0){  %>
+                 <td class="text-success">₹<%= wallet.wallet_history.amount  %></td>
+                  <% }else{ %>
+                   <td class="text-danger">₹<%= wallet.wallet_history.amount  %></td>
+                    <% } %>
+                  <!-- <td class="text-danger">₹10000</td> -->
+          
+                <td><%= wallet.wallet_history.description  %></td>
+              </tr>
+              <% }) %>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="form" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Add amount to wallet</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="wallet-form">
+            <div class="modal-body">
+              <div class="form-group">
+                <label class="ms-2 text-dark" for="email1">Enter Amount</label>
+                <input type="Number" class="form-control" id="amount" aria-describedby="emailHelp" placeholder="eg:1000" required>
+                <p id="err" class="text-danger"></p>
+              </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCEL</button>
+          <button type="submit" class="btn btn-success">ADD</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+ <%- include('./layouts/footerNavbar.ejs')  %>
+ <%- include('./layouts/footer.ejs')  %>
+
+
+    <script>
+  document.getElementById('wallet-form').addEventListener('submit',async(event)=>{
+    event.preventDefault()
+   
+   const amount= document.getElementById('amount').value.trim()
+    if(!amount){
+      event.preventDefault()
+    }else if(amount<1){
+      event.preventDefault()
+    }else{
+
+      const response=await axios.post('/addMoneyToWallet',{amount})
+      if(response.data.success==true){
+        razorpayPayment(response.data.payment)
+      }else{
+        window.location.href='/walletHistory'
+      }
+
+
+    }
+
+
+  })
+
+
+              function razorpayPayment(payment) {
+                        var options = {
+                            "key": "rzp_test_bc32rCVTwnCmDc", // Enter the Key ID generated from the Dashboard
+                            "amount": payment.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                            "currency": "INR",
+                            "name": "Cornerstone", //your business name
+                            "description": "Test Transaction",
+                            "image": "https://imgs.search.brave.com/TfguTvS-EnLsswUAmtChkd2DWXn0Xe3TAkNm1rt6MeQ/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9sb2dv/c2FuZHR5cGVzLmNv/bS93cC1jb250ZW50/L3VwbG9hZHMvMjAy/Mi8wMy9jb3JuZXJz/dG9uZS5zdmc.svg",
+                            "order_id": payment.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                            // "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
+                            "handler": function (response) {
+
+
+                              //  alert(response.razorpay_payment_id);
+                              //  alert(response.razorpay_order_id);
+                              //  alert(response.razorpay_signature)
+
+
+
+                                verifyPayment(response, payment)
+
+
+                            },
+                            "prefill": {
+                                "name": 'customersName', //your customer's name
+                                "email": "gaurav.kumar@example.com",
+                                "contact": "9000090000"
+                            },
+                            "notes": {
+                                "address": "Razorpay Corporate Office"
+                            },
+                            "theme": {
+                                "color": "#3399cc"
+                            }
+
+                        };
+
+                        var rzp1 = new Razorpay(options);
+                        rzp1.open();
+                    }
+
+
+               async function verifyPayment(razorpay,payment){
+    
+
+                  console.log('raz',razorpay,'pay',payment);
+              const response=await axios.post('/walletVerifyPayment',{razorpay,payment})
+              if(response.data.success==true){
+               window.location.href='/walletHistory'
+              }else{
+                window.location.href='/walletHistory'
+                 alert('Payment Failed');
+              }
+
+                }
+
+
+    </script>

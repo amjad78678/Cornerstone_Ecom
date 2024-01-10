@@ -1,0 +1,258 @@
+<%- include('./layouts/header.ejs')  %>
+
+
+<div class="container">
+        <h1 class="mt-5">Sales Report  <span style="float: right;"><a class="btn btn-primary" href="/admin/adminHome">Back</a></span></h1>
+        <div class="btn-group mt-3">
+          <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            Download 
+          </button>
+          
+          <div class="dropdown-menu sub-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#" onclick="downloadPDF(event,'printThisDiv')">Download as PDF</a>
+            <a class="dropdown-item" href="#" onclick="downloadExcel(event,'UsersData.csv')">Download as Excel</a>
+          </div>
+        </div>
+
+
+
+        <div class="row mt-4">
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label for="startDatePicker">Select start date:</label>
+              <input type="date" id="startDatePicker" class="form-control" min="<%= firstOrderDate %>"
+                max="<%= lastOrderDate %>" onchange="selectedDate()" required />
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label for="endDatePicker">Select end date:</label>
+              <input type="date" id="endDatePicker" class="form-control" min="<%= firstOrderDate %>" max="<%= lastOrderDate %>"
+                onchange="selectedDate()" required />
+            </div>
+          </div>
+        </div>
+
+      <div class="container mt-4">
+  <div class="row">
+    <div class="col">
+      <div id="reportContainer">
+        <div id="printThisDiv">
+          <br>
+      
+          <% if (salesReport && salesReport.length > 0) { %>
+            <table class="table table-bordered table-striped">
+              <thead class="thead-dark" id="reportHeader">
+                  <tr class="text-center">
+                    <th scope="col">Username</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Mobile</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Order ID</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Payment Method</th> 
+                    <th scope="col">Total</th>
+                  </tr>
+                </thead>
+                <tbody id="reportBody">
+                  <% salesReport.forEach(element => { %>
+                    <tr class="text-center">
+                      <td><%= element.user_id.userName %></td>
+                      <td><%= element.user_id.email %></td>
+                      <td><%= element.user_id.mobileNumber %></td>
+                      <td><%= element.delivery_address %></td>
+                      <td><%= element.order_id %></td>
+                      <td><%= element.date %></td>
+                      <td><%= element.payment %></td>
+                      <td class="total-column"><%= element.total_amount %></td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+            </table>
+          <% } else { %>
+            <p class="text-center">No sales</p>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+
+
+      <%- include('./layouts/footer.ejs')  %>
+
+
+      <script>
+        async function selectedDate(){
+            let startDate=document.getElementById('startDatePicker').value
+            let endDate=document.getElementById('endDatePicker').value
+
+            if(!startDate || !endDate){
+                Toastify({
+                    text:"Please select both start and end dates",
+                   duration: 3000,
+                   position: "center",
+                  style: {
+                  background: "#FFFFFF",
+                  color: "#D21312",
+                  }
+                }).showToast();
+                console.log('after show toast');
+                return false
+            }
+
+            let startDateObj=new Date(startDate);
+            let endDateObj=new Date(endDate);
+
+            if(startDate>endDate){
+              console.log('hi');
+              Toastify({
+                text: "Start date cannot be greater than end date",
+                duration: 3000,
+                position: "center",
+                style: {
+                  background: "#FFFFFF",
+                  color: "#D21312",
+                },
+            }).showToast();
+            return false
+         
+           }
+
+            const today = new Date();
+            if (endDateObj > today) {
+              Toastify({
+                text: "End date cannot be in the future",
+                duration: 3000,
+                position: "center",
+                style: {
+                  background: "#FFFFFF",
+                  color: "#D21312",
+                },
+              }).showToast();
+              return false;
+            }
+
+
+   const response=await axios.post('/admin/salesReport',{startDate,endDate})
+  const salesReport=response.data.selectedOrder
+  console.log('iamSales',salesReport);
+  const reportBody= document.getElementById('reportBody')
+
+      reportBody.innerHTML=salesReport.map((element)=>
+        `
+        <tr>
+          <td>${element.user_id.email}</td>
+          <td>${element.user_id.mobileNumber}</td>
+          <td>${element.delivery_address}</td>
+          <td>${element._id}</td>
+          <td>${element.date}</td>
+          <td>${element.payment}</td>
+          <td>${element.total_amount}</td>
+   
+        </tr>
+      `
+     
+      ).join(''); // Join the array elements into a single string
+
+      const tableHeader=
+
+        `<tr>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>Address</th>
+                <th>Order ID</th>
+                <th>Date</th>
+                <th>Payment Method</th>
+                <th>Grand Total</th>
+        </tr>
+      `;
+
+
+ const reportHeader = document.getElementById("reportHeader")
+  reportHeader.innerHTML = tableHeader;
+     
+ } 
+
+
+ async function downloadPDF(event,printDiv){
+    try {
+     event.preventDefault() 
+
+    const startDate = document.getElementById('startDatePicker').value;
+    const endDate = document.getElementById('endDatePicker').value;  
+    let headerContent=''
+ if(startDate && endDate){
+        headerContent = `
+        <br>
+        <h4>Selected Dates: ${startDate} to ${endDate}</h4>
+      `;
+
+ }
+
+     const printContents = headerContent+document.getElementById(printDiv).innerHTML
+     const originalContents=document.body.innerHTML;
+       document.body.innerHTML=printContents;
+       window.print();
+       document.body.innerHTML=originalContents;
+
+    } catch (error) {
+        
+    }
+ }
+
+async function downloadExcel(event, fileName) {
+    try {
+        event.preventDefault();
+        var data = [];
+        var grandTotal = 0;  // Initialize grand total
+
+        var rows = document.querySelectorAll("table tr");
+
+        for (var i = 0; i < rows.length; i++) {
+            var row = [],
+                cols = rows[i].querySelectorAll("td,th");
+
+            for (var j = 0; j < cols.length; j++) {
+                var cellValue = cols[j].innerText.trim();
+
+                console.log('iam cellvalue',cellValue)
+                row.push(cellValue);
+
+                // Check if the column is the "Total" column and add it to the grand total
+                if (cols[j].classList.contains("total-column")) {
+                  console.log('totalcol',cols[j])
+                    var totalValue = parseFloat(cellValue.replace(/[^\d.-]/g, '')); // Extract numeric value
+                    console.log('totalVal',totalValue)
+                    grandTotal += isNaN(totalValue) ? 0 : totalValue;
+                }
+            } 
+
+            data.push(row.join(","));
+        }
+
+        // Add a row for the grand total
+        data.push("'',,,,,,Grand Total  :, " + grandTotal);
+
+        downloadCSVFile(data.join("\n"), fileName);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+ function downloadCSVFile(csv,fileName){
+    var csv_file,download_link
+    csv_file=new Blob([csv],{type:"text/csv"});
+    download_link=document.createElement("a")
+    download_link.download=fileName;
+    download_link.href=window.URL.createObjectURL(csv_file);
+    download_link.style.display="none";
+    document.body.appendChild(download_link);
+    download_link.click();
+
+ }
+
+  </script>

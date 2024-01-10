@@ -1,0 +1,190 @@
+
+    <div class="container-fluid border-top border-bottom">
+      <div class="row">
+        <div class="col-xl-3 col-lg-4 col-md-4 mb-3">
+          <img
+            class="p-4"
+            width="90rem"
+            height="90rem"
+            src="/assets/images/logo/logo-only.png"
+            alt=""
+          />
+          <p class="mb-4 mt-1">
+            Welcome to Cornerstore, where beauty meets function in every piece. Elevate your living spaces with our curated collection, a symphony of style and comfort,  exclusively at Cornerstore.
+          </p>
+          <span class="social-label mt-3 mb-3 d-flex"
+            ><a
+              href="#"
+              class="social-icon social-facebook p-3"
+              title="Facebook"
+              target="_blank"
+              ><i class="icon-facebook-f"></i
+            ></a>
+            <a
+              href="#"
+              class="social-icon social-twitter p-3"
+              title="Twitter"
+              target="_blank"
+              ><i class="icon-twitter"></i
+            ></a>
+            <a
+              href="#"
+              class="social-icon social-instagram p-3"
+              title="Instagram"
+              target="_blank"
+              ><i class="icon-instagram"></i
+            ></a>
+            <a
+              href="#"
+              class="social-icon social-youtube p-3"
+              title="Youtube"
+              target="_blank"
+              ><i class="icon-youtube"></i></a
+          ></span>
+        </div>
+
+        <div class="col-xl-2 col-lg-1 col-md-1"></div>
+        <div class="col-xl-7 col-lg-7 col-md-7 mb-4">
+          <div class="container-fluid mt-5">
+            <div class="row links-wrap mt-5">
+              <div class="col-6 col-sm-6 col-md-3">
+                <ul class="list-unstyled">
+                  <li class="mb-2">
+                    <a class="text-dark" href="#">About us</a>
+                  </li>
+                  <li class="mb-2">
+                    <a class="text-dark" href="#">Services</a>
+                  </li>
+                  <li class="mb-2"><a class="text-dark" href="#">Blog</a></li>
+                  <li class="mb-2">
+                    <a class="text-dark" href="#">Contact us</a>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="col-6 col-sm-6 col-md-3">
+                <ul class="list-unstyled">
+                  <li class="mb-2">
+                    <a class="text-dark" href="#">Support</a>
+                  </li>
+                  <li class="mb-2">
+                    <a class="text-dark" href="#">Knowledge base</a>
+                  </li>
+                  <li class="mb-2">
+                    <a class="text-dark" href="#">Live chat</a>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="col-6 col-sm-6 col-md-3">
+                <ul class="list-unstyled">
+                  <li class="mb-2"><a class="text-dark" href="#">Jobs</a></li>
+                  <li class="mb-2">
+                    <a class="text-dark" href="#">Our team</a>
+                  </li>
+                  <li class="mb-2">
+                    <a class="text-dark" href="#">Leadership</a>
+                  </li>
+                  <li class="mb-2">
+                    <a class="text-dark" href="#">Privacy Policy</a>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="col-6 col-sm-6 col-md-3">
+                <ul class="list-unstyled">
+                  <li class="mb-2">
+                    <a class="text-dark" href="#">Nordic Chair</a>
+                  </li>
+                  <li class="mb-2">
+                    <a class="text-dark" href="#">Kruzo Aero</a>
+                  </li>
+                  <li class="mb-2">
+                    <a class="text-dark" href="#">Ergonomic Chair</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--payment images-->
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xl-3 col-lg-3 col-sm-3">
+          <img
+            class="mt-2"
+            src="assets/images/payments.png"
+            alt="Payment methods"
+            width="272"
+            height="20"
+          />
+        </div>
+        <div class="col-xl-5 col-lg-6 col-md-4 col-sm-5" ></div>
+        <div style="float: right;" class="col-xl-4 col-lg-3 col-md-5 col-sm-4  mr-auto">
+          Copyright © 2023 Cornerstone Store.
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- End .footer -->
+</div>
+<!-- End .page-wrapper -->
+
+
+
+
+
+<!-- Sign in / Register Modal -->
+<div
+  class="modal fade"
+  id="signin-modal"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true"><i class="icon-close"></i></span>
+        </button>
+
+        <!-- End .form-box -->
+      </div>
+      <!-- End .modal-body -->
+    </div>
+    <!-- End .modal-content -->
+  </div>
+  <!-- End .modal-dialog -->
+</div>
+</div>
+<!-- End .modal -->
+
+
+<script>
+ function validateForm(){
+         let email=document.getElementById('emailId').value.toLowerCase()
+      
+
+      const emailOne = /^[^\s@]+@/;
+    const emailTwo=/[a-zA-Z\d-]+\.(com|net|org)$/
+    const combinedRegex=new RegExp(emailOne.source+emailTwo.source)
+
+    if (!combinedRegex.test(email)){
+        document.getElementById('emailError').innerHTML='  Please enter a valid Gmail address'
+        return false
+    }else{
+        document.getElementById('emailError').innerHTML=''
+    }
+
+    return true
+
+  }
+</script>

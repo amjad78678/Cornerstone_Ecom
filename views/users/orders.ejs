@@ -1,0 +1,209 @@
+<%- include('./layouts/header.ejs')  %>
+<script src="https://unpkg.com/easyinvoice/dist/easyinvoice.min.js"></script>
+<link rel="stylesheet" href="/assets/css/orders.css">
+<%- include('./layouts/headerNavbar.ejs')  %>
+
+  <br>
+  <br>
+
+<body class="goto-here">
+  <!-- Dummy content for userNav.ejs inclusion -->
+
+
+  <div class="container breadcrumb-section bg-secondary" >
+    <div class="breadcrumb-wrapper">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <h2 class="breadcrumb-title" style="color: white">Your Orders</h2>
+            <h4 class="breadcrumb-subtitle" style="color: white">
+              Track your orders and view details
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ...:::: End Breadcrumb Section:::... -->
+
+  <div class="container mb-4">
+    <div class="d-flex align-items-center justify-content-between">
+      <h4>Thank you for placing your order.</h4>
+      <a href="/userProfile" class="btn btn-md btn-success bg-secondary mt-3">Back</a>
+      
+    </div>
+    <br>
+    <div>
+       <% if (aggrOrderData) { %>
+       <% for (let order of aggrOrderData) {%>
+      <!-- Dummy content for orderHistory iteration -->
+      <div class="order-box border rounded p-4 mb-5">
+        <h5 class="mb-3">Order ID: <%=order.order_id  %></h5>
+        <div class="row">
+          <div class="col-md-6">  
+          <% const formattedDate = new Date(order.date).toLocaleDateString(); %>
+          <% const formattedTime = new Date(order.createdAt).toLocaleTimeString(); %>
+            <p>Date: <%=formattedDate  %></p>
+            <p>Order Time: <%=formattedTime %></p>
+            <br>
+            
+            <h5 id="status-<%=order._id%>" class="text-success">Status: <%=order.status  %></h5>
+     
+             
+          
+             <% if((order.payment=='razorPay' || order.payment=='walletPayment') && order.status=='delivered'){ %>
+    <a href="/invoiceDownload?orderId=<%= order._id %>&userId=<%= order.user_id %>" class="invoice-btn bg-success">Download Invoice</a>
+<% } %>
+
+          </div>
+          <div class="col-md-6">
+            <p>Total: ₹<span id="total"><%=order.total_amount  %></span></p>
+            <p>Method : <span id="method"><%= order.payment  %></span></p>
+            <% if(order.status=='placed'||order.status=='dispatched'||order.status=='out for delivery'){ %>
+            <p>Expected Delivery: <%= order.expected_delivery  %></p>
+            <% } %>
+            <br>
+            <a href="/viewOrdered?id=<%= order._id  %>" class="btn btn-md btn-success bg-secondary">View Details</a>
+             <% if(order.status=='placed'||order.status=='pending'||order.status=="dispatched"){ %>
+
+            <a href="#" style="background-color: #f44336;" onclick="cancel(event,'<%=order._id%>')" id="cancel-<%=order._id  %>" class="btn btn-md btn-danger buttonCancel">Cancel</a>
+                    <% }else if(order.status=='delivered'){ %>
+
+                
+                  <% const returnExpiry=new Date(order.date) %>
+                  <% returnExpiry.setDate(returnExpiry.getDate()+10); %>
+                  <% const currDate=new Date() %>
+
+                  <% if (currDate<=returnExpiry){ %>
+
+
+             <a href="#" onclick="returnOrder(event,'<%=order._id%>')" id="return-<%=order._id  %>" class="btn btn-md btn-danger buttonCancel">Return</a>
+                     <p class="text-muted mt-3" id="return-text">Please note that order returns are only possible within 10 days from the delivery date.</p>
+             <% }else{ %>
+                       <p class="text-muted mt-3">Return expired</p>
+                  <% } %>
+                  <% } %>
+          </div>
+        </div>  
+      </div>
+      <!-- End Dummy Content -->
+      <% } %>
+      <% }else{%>
+
+       <h1>No orders</h1>
+      <% } %>
+    
+    </div>
+  
+      <div class="pagination-container" style="display: flex; align-items: center;">
+    <% for(let j=1;j<=totalPages;j++){ %>
+    <a
+      href="/orders?page=<%= j %>"
+      class="mx-2 rounded-md border border-gray-400 px-3 py-1 text-gray-900 hover:scale-105 pagination-link"
+    >
+      <%= j %>
+    </a>
+
+    <% } %>
+    </div>
+
+</body>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+<%- include('./layouts/footer.ejs')  %>
+<%- include('./layouts/footerNavbar.ejs')  %>
+
+<script>
+
+async function cancel(event,orderId){
+
+     try {
+      
+     event.preventDefault()      
+     console.log('started click');
+  
+     
+     Swal.fire({
+      title:'Cancel Order',
+      text:'Are you sure you want to cancel this order?',
+      icon:'warning',
+      showCancelButton:'true',
+      confirmButtonText:'Ok',
+      cancelButtonText:'Cancel',
+      dangerMode:true,
+
+     }).then(async(willDelete)=>{
+      if(willDelete.isConfirmed){ 
+     const response=await axios.patch('/cancelOrder',{orderId})
+
+       if(response.data.success){
+        document.getElementById(`status-${orderId}`).innerHTML=`Status: ${response.data.status}`
+        const removeElement = document.getElementById(`cancel-${orderId}`);
+    
+        removeElement.parentNode.removeChild(removeElement);
+        
+       
+       }
+      
+      }
+
+     })
+
+    }catch(error){
+     console.log(error.message);
+    }
+    }
+
+
+
+    async function returnOrder(event,orderId){
+    try {
+      
+     event.preventDefault()      
+     console.log('started click');
+  
+     
+     Swal.fire({
+      title:'Return Order',
+      text:'Are you sure you want to return this order?',
+      icon:'warning',
+      showCancelButton:'true',
+      confirmButtonText:'Ok',
+      cancelButtonText:'Cancel',
+      dangerMode:true,
+
+     }).then(async(willDelete)=>{
+      if(willDelete.isConfirmed){ 
+     const response=await axios.patch('/returnOrder',{orderId})
+
+       if(response.data.success){
+        document.getElementById(`status-${orderId}`).innerHTML=`Status: ${response.data.status}`
+        const removeElement = document.getElementById(`return-${orderId}`);
+    
+        removeElement.parentNode.removeChild(removeElement);
+        
+       
+       }
+      
+      }
+
+     })
+
+    }catch(error){
+     console.log(error.message);
+    }
+
+    
+
+
+
+
+    }
+</script>
+

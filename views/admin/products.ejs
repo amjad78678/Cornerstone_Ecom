@@ -1,0 +1,408 @@
+<%- include('./layouts/header.ejs')  %>
+<%- include('./layouts/headerNav.ejs')  %>
+        <main class="main-wrap">
+            <header class="main-header navbar">
+                <div class="col-search">
+                    <form class="searchform">
+                        <div class="input-group">
+                      
+                        </div>
+                        <datalist id="search_terms">
+                            <option value="Products"></option>
+                            <option value="New orders"></option>
+                            <option value="Apple iphone"></option>
+                            <option value="Ahmed Hassan"></option>
+                        </datalist>
+                    </form>
+                </div>
+                <div class="col-nav">
+                    <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i class="material-icons md-apps"></i></button>
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon" href="#">
+                                <i class="material-icons md-notifications animation-shake"></i>
+                                <span class="badge rounded-pill">3</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
+                        </li>
+                        <li class="dropdown nav-item">
+                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i class="material-icons md-public"></i></a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
+                                <a class="dropdown-item text-brand" href="#"><img src="assetsAdmin/imgs/theme/flag-us.png" alt="English" />English</a>
+                                <a class="dropdown-item" href="#"><img src="assetsAdmin/imgs/theme/flag-fr.png" alt="Français" />Français</a>
+                                <a class="dropdown-item" href="#"><img src="assetsAdmin/imgs/theme/flag-jp.png" alt="Français" />日本語</a>
+                                <a class="dropdown-item" href="#"><img src="assetsAdmin/imgs/theme/flag-cn.png" alt="Français" />中国人</a>
+                            </div>
+                        </li>
+                        <li class="dropdown nav-item">
+                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="assetsAdmin/imgs/people/avatar-2.png" alt="User" /></a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                                <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-account_balance_wallet"></i>Wallet</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help center</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="#"><i class="material-icons md-exit_to_app"></i>Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+            <section class="content-main">
+                <div class="content-header">
+                    <div>
+                        <h2 class="content-title card-title">Products</h2>
+                        <p>Cornerstone Furniture: Where Comfort Meets Craftsmanship.</p>
+                    </div>
+                    <div>
+                          
+                        <a href="/admin/addProduct" class="btn btn-primary btn-sm rounded">Add Product</a>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <header class="card-header">
+                        <div class="row align-items-center">
+                      
+                   
+                      
+                        </div>
+                    </header>
+                    <!-- card-header end// -->
+                    <div class="card-body">
+          <table class="table" id="example">
+    <thead>
+        <tr>
+           
+            <th scope="col">Product</th>
+            <th scope="col">Wood</th>
+            <th scope="col">Category</th>
+            <th scope="col">Price</th>
+            <th scope="col">Status</th>
+            <th scope="col">Date</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Offers</th>
+            <th></th>
+            <th scope="col" class="text-end">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+          <% if(product.length>0){ %>
+            <% for(i=0;i<product.length;i++){ %>
+        <tr>
+            
+            <td>
+                <a class="itemside" href="#">
+                    <div class="left">
+                        <img src="<%= product[i].imageUrl[0]  %>" class="img-sm img-thumbnail" alt="Item" />
+                    </div>
+                    <div class="info">
+                        <h6 class="mb-0"><%= product[i].name  %></h6>
+                    </div>
+                </a>
+            </td>
+            <td><%= product[i].wood  %></td>
+            <td><%= product[i].category  %></td>
+            <td><%= product[i].price  %></td>
+            <td><span class="badge rounded-pill alert-success" id="status_<%= product[i]._id %>">
+                <% if(product[i].is_Listed==true) { %>
+                    
+                    Listed
+                    
+                    <% }else{ %>
+                       Unlisted
+                        
+                        <% } %></span></td>
+            <td><%= product[i].date  %></td>
+            <td><%= product[i].stockQuantity  %></td>
+            <td> <% if ( product[i].offer ){%>
+
+                                                        <button onclick="removeOffer('<%= product[i]._id %>')"
+                                                            class="btn btn-sm btn-outline-warning rounded font-sm">
+                                                            Remove offer </button>
+                                                        <% } else {%>
+                                                            <button class=" btn btn-sm btn-outline-primary rounded
+                                                            font-sm" onclick="offerListModal('<%= product[i]._id %>')">
+                                                                Apply offer
+                                                            </button>
+                                                            <% }%>  <td>
+                                                    
+                                                </td></td>
+                                   <td class="text-end">
+                                            <a href="#" class="btn btn-md rounded font-sm list-product" data-user-id="<%= product[i]._id  %>">List</a>
+                                               <a href="#" class="btn btn-danger rounded font-sm unlist-product" data-user-id="<%= product[i]._id  %>" >Unlist</a>
+                                            <div class="dropdown">
+                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item" href="/admin/editProduct?id=<%=product[i]._id%>">Edit</a>
+                                                    <a class="dropdown-item text-danger delete-product" href="#"  data-toggle="modal" data-target="#deleteProductModal" data-product-id="<%= product[i]._id %>">Delete</a>
+                                                </div>
+                                            </div>
+                                            <!-- dropdown //end -->
+                                        </td>
+        </tr>
+        <% } %>
+        <% } %>
+        <!-- Add more rows as needed -->
+    </tbody>
+</table>
+
+                        
+                        <!-- itemlist  .// -->
+                    </div>
+                    <!-- card-body end// -->
+                </div>
+                <!-- card end// -->
+               
+            </section>
+            <!-- content-main end// -->
+            <footer class="main-footer font-xs">
+                <div class="row pb-30 pt-15">
+                    <div class="col-sm-6">
+                        <script>
+                            document.write(new Date().getFullYear());
+                        </script>
+                        &copy; Nest - HTML Ecommerce Template .
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="text-sm-end">All rights reserved</div>
+                    </div>
+                </div>
+            </footer>
+        </main>
+
+
+
+ <!-- Delete Product Modal -->
+<div class="modal fade" id="deleteProductModal" tabindex="-1" aria-labelledby="deleteProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteProductModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close goBackBtn" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this product ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Cancel</button>
+               <a href="/admin/products"><button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button></a> 
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- another modal -->
+
+       <div class="modal fade" id="discountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <% if (availableOffers && availableOffers.length> 0) { %>
+                        <% for (offer of availableOffers) { %>
+                            <div class="modal-content rounded-50">
+                                <div data-offerId="<%= offer._id %>" style="cursor: pointer;"
+                                    class="modalBody modal-body text-center">
+                                    <div class="icon text-danger">
+                                        <i style="font-size: 20px;" class="fas fa-gift"></i>
+                                    </div>
+                                    <div class="notice">
+                                        <h2>
+                                            <%= offer.name %>
+                                        </h2>
+                                        <h4>
+                                            <%= offer.percentage %>% Discount
+                                        </h4>
+                                        <p class="offer-validity">
+                                            <span>Valid from</span>
+                                            <%= moment(offer.startingDate ).format('MMM Do YY') %> <span>to</span>
+                                                <%= moment(offer.expiryDate).format('MMM Do YY') %>
+                                        </p>
+                                    </div>
+                                    <div class="code"></div>
+                                </div>
+                            </div>
+                            <% } %>
+                                <% } %>
+                </div>
+            </div>
+
+
+
+
+<%-include('./layouts/footer.ejs')  %>
+<!-- DataTables JS jquery pagination search -->
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
+
+    <script>
+            document.addEventListener('DOMContentLoaded', function () {
+              document.querySelectorAll('.list-product').forEach(function (button) {
+                button.addEventListener('click', function () {
+                  const id = this.getAttribute('data-user-id');
+                  updateUserStatus(id, 'list');
+                });
+              });
+          
+              document.querySelectorAll('.unlist-product').forEach(function (button) {
+                button.addEventListener('click', function () {
+                  const id = this.getAttribute('data-user-id');
+                  updateUserStatus(id, 'unlist');
+                });
+              });
+          
+ function updateUserStatus(id, action) {
+  console.log(`Updating user status for ${id} with action ${action}`);
+  fetch(`/admin/products/${action}/${id}`, {
+    method: 'post',
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('Response data:', data);
+
+      // Update the UI
+      const statusElement = document.getElementById(`status_${id}`);
+      if (data.is_Listed==true) {
+        // Update text content and apply a class
+        statusElement.textContent = 'Listed';
+        statusElement.classList.add('alert-success');
+        statusElement.classList.remove('alert-warning');
+      } else {
+        // Update text content and apply a class
+        statusElement.textContent = 'Unlisted';
+        statusElement.classList.add('alert-warning');
+        statusElement.classList.remove('alert-success');
+      }
+
+      // Optionally, you can show an alert or a popup here
+      // Example: alert('User status updated successfully');
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      // Handle errors if needed
+    });
+}
+
+}
+  );
+ </script>
+
+
+<!-- for deleteling category script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Handle Delete button click
+        $('.delete-product').on('click', function () {
+            const productId = $(this).data('product-id');
+
+            // Set the categoryId in the modal for reference
+            $('#deleteProductModal').data('product-id', productId);
+
+            // Show the modal
+            $('#deleteProductModal').modal('show');
+        });
+
+    
+
+        // Handle Confirm Delete button click
+        $('#confirmDeleteBtn').on('click', function () {
+            // Retrieve the categoryId from the modal
+            const productId = $('#deleteProductModal').data('product-id');
+
+            // Make a POST request to delete the category
+            fetch(`/admin/products/deleteProducts/${productId}`, {
+                method: 'POST',
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Perform actions after successful deletion
+                        console.log('Category deleted successfully');
+
+                        // Redirect to the categories page
+                        window.location.href = '/admin/products';
+                    } else {
+                        // Handle deletion failure
+                        console.error('Deletion failed');
+                    }
+                })
+                .catch(error => {
+                    // Handle fetch error
+                    console.error('Fetch error:', error);
+                });
+        });
+    });
+
+
+
+    async function offerListModal(productId){
+     $('#discountModal').modal('show')
+   const divModal= document.querySelectorAll('.modalBody')
+       divModal.forEach((element)=>{
+           element.onclick=(function(){
+            const offerId=this.getAttribute('data-offerId')
+             enterOffer(offerId,productId)
+           })
+             
+       })
+    }
+
+
+
+    async function enterOffer(offerId,productId){
+    try {
+     $('#discountModal').modal('hide')
+    const response=await axios.patch('/admin/applyProductOffer',{offerId,productId})
+     if(response.data.success==true){
+        console.log(response.data);
+        Swal.fire('Offer applied')
+        window.location.href='/admin/products'
+     }else{
+         Swal.fire('Failed to apply offer');
+     }
+    
+    } catch (error) {
+    console.error('Error applying offer:', error);
+    Swal.fire('Error applying offer');
+    }
+    }
+
+ async function removeOffer(productId){
+     try {
+          Swal.fire({
+            title: 'Are you sure?',
+            text: 'This action cannot be undone!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, proceed!',
+            cancelButtonText: 'Cancel',
+            reverseButtons: true 
+          }).then(async(result)=>{
+            if(result.isConfirmed){
+  const response=await axios.patch('/admin/removeProductOffer',{productId})
+        if(response.data.success==true){
+            window.location.href='/admin/products'
+        }
+            }
+          })
+ 
+     } catch (error) {
+        console.log(error.message);
+     }
+    }
+</script>
+
+
+<script>
+$(document).ready(function() {
+    $('#example').DataTable({
+        destroy: true, // Destroy the existing DataTable, if any
+        ordering: false // or any other options you need
+    });
+});
+</script>

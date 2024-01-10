@@ -1,0 +1,238 @@
+<%- include('./layouts/header.ejs') %>
+<%- include('./layouts/headerNavbar.ejs') %>
+
+  <!-- End header -->
+
+  <main class="main">
+    <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+      <!-- End .container -->
+    </nav>
+    <!-- End .breadcrumb-nav -->
+
+    <div
+      class="login-page bg-image pt-8 pb-8 pt-md-12 pb-md-12 pt-lg-17 pb-lg-17"
+      style="background-image: url('assets/images/backgrounds/loginsignup.jpg')"
+    >
+      <div class="container">
+        <div class="form-box">
+          <div class="form-tab">
+            <ul class="nav nav-pills nav-fill" role="tablist">
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  id="register-tab-2"
+                  data-toggle="tab"
+                  href="#register-2"
+                  role="tab"
+                  aria-controls="register-2"
+                  aria-selected="true"
+                  >Register</a
+                >
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div
+                class="tab-pane fade"
+                id="signin-2"
+                role="tabpanel"
+                aria-labelledby="signin-tab-2"
+              >
+                <!-- End .form-choice -->
+              </div>
+              <!-- .End .tab-pane -->
+              <div
+                class="tab-pane fade show active"
+                id="register-2"
+                role="tabpanel"
+                aria-labelledby="register-tab-2"
+              >
+                <form action="" id="signupForm">
+                  <div class="form-group">
+                    <label for="Username">Username *</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="userName" 
+                      name="userName"
+                      required
+                    />
+                    <span id="userNameError" class="error"></span>
+                    <br>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="register-email-2">Your email address *</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="email"
+                      name="email"
+                      required
+                    />
+                     <span id="emailError" class="error"></span>
+                     <br>
+                  </div>
+                  <div class="form-group">
+                    <label for="mobileNumber">Your Mobile Number*</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="mobileNumber"
+                      name="mobileNumber"
+                      required
+                    />
+                     <span id="mobileNumberError" class="error"></span>
+                     <br>
+                  </div>
+                  <!-- End .form-group -->
+
+                  <div class="form-group">
+                    <label for="register-password-2">Password *</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="password"
+                      name="password"
+                      required
+                    />
+                     <span id="passwordError" class="error"></span>
+                     <br>
+                  </div>
+                  <div class="form-group">
+                    <label for="register-password-2">Confirm Password *</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      required
+                    />
+                    <input type="hidden" name="referral" value="<%=userReferral %>">
+                     <span id="confirmPasswordError" class="error"></span>
+                     <br>
+                  </div>
+
+                  </div>
+                  <!-- End .form-group -->
+
+                  <div class="form-footer">
+                    <button type="submit" onclick="registerButton(event)" class="btn btn-outline-primary-2">
+                      <span >SIGN UP</span>
+                      <i class="icon-long-arrow-right"></i>
+                    </button>
+                
+                    <!-- End .custom-checkbox -->
+                  </div>
+                  <!-- End .form-footer -->
+                </form>
+                <span id="mainError" class="error text-center"></span>
+       
+                <div id="RegisterMessage" class="text-center" style="color: #cc582e; font-size: smaller;"></div>
+
+                <!-- End .form-choice -->
+              </div>
+              <!-- .End .tab-pane -->
+            </div>
+            <!-- End .tab-content -->
+          </div>
+          <!-- End .form-tab -->
+        </div>
+        <!-- End .form-box -->
+      </div>
+      <!-- End .container -->
+    </div>
+    <!-- End .login-page section-bg -->
+  </main>
+  <!-- End .main -->
+
+  <%- include('./layouts/footerNavbar.ejs') %>
+  <%- include('./layouts/footer.ejs') %>
+
+<script>
+
+  async function registerButton(event){
+  event.preventDefault()
+
+
+       let userName=document.getElementById('userName').value
+       let email=document.getElementById('email').value.toLowerCase()
+       let mobileNumber=document.getElementById('mobileNumber').value
+       let password=document.getElementById('password').value
+       let confirmPassword=document.getElementById('confirmPassword').value
+
+
+   const nameRegex =/^[a-zA-Z][a-zA-Z0-9]*$/
+    if (!nameRegex.test(userName)) {
+       document.getElementById('userNameError').innerHTML='Name should start with an alphabet then numbers'
+       return false
+    }else{
+        document.getElementById('userNameError').innerHTML=''
+    }
+    const emailOne = /^[^\s@]+@/;
+    const emailTwo=/[a-zA-Z\d-]+\.(com|net|org)$/
+    const combinedRegex=new RegExp(emailOne.source+emailTwo.source)
+
+    if (!combinedRegex.test(email)){
+        document.getElementById('emailError').innerHTML='  Please enter a valid Gmail address'
+        return false
+    }else{
+        document.getElementById('emailError').innerHTML=''
+    }
+    const mobileRegex=/^\d+$/
+    if(!mobileRegex.test(mobileNumber)){
+        document.getElementById('mobileNumberError').innerHTML='Mobile number should contain only numbers'
+        return false
+    }else{
+        document.getElementById('mobileNumberError').innerHTML=''
+    }
+ var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+if (!passwordRegex.test(password)) {
+    document.getElementById('passwordError').innerHTML = 'Password must be at least 8 characters long and include at least one lowercase letter, one uppercase letter, one digit, and one special character (@ $ ! % * ? &)';
+    return false;
+} else {
+    document.getElementById('passwordError').innerHTML = '';
+}
+
+    if(password!==confirmPassword){
+     document.getElementById('mainError').innerHTML='Password should not match'
+     return false
+    }else{
+        document.getElementById('mainError').innerHTML=''
+    }
+
+
+ // Move the AJAX request inside the validation success block
+
+
+     var verifyData = $("#signupForm").serialize();
+
+      $.ajax({
+        type: "POST",
+        url: "/userRegister", // Update the URL to your server endpoint
+        data: verifyData,
+        success: function (response) {
+          console.log(response.message);
+          $("#RegisterMessage").html(response.message);
+         if(response.success){
+        console.log('resId'+response.id);
+          let userId=response.id
+         
+          window.location.href=`/authentication?id=${userId}`
+         }
+         
+        },
+        error: function () {
+          $("#RegisterMessage").html("Error in register");
+        }
+      }); 
+
+  } 
+
+
+
+  // $('#reloadDiv').load('/cart #reloadDiv')
+
+  
+</script>
+

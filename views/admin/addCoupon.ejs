@@ -1,0 +1,280 @@
+<%- include('./layouts/header.ejs')  %>
+<%- include('./layouts/headerNav.ejs')  %>
+        <main class="main-wrap">
+            <header class="main-header navbar">
+                <div class="col-search">
+                    <form class="searchform">
+                        <div class="input-group">
+                            <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
+                            <button class="btn btn-light bg" type="button"><i class="material-icons md-search"></i></button>
+                        </div>
+                        <datalist id="search_terms">
+                            <option value="Products"></option>
+                            <option value="New orders"></option>
+                            <option value="Apple iphone"></option>
+                            <option value="Ahmed Hassan"></option>
+                        </datalist>
+                    </form>
+                </div>
+                <div class="col-nav">
+                    <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i class="material-icons md-apps"></i></button>
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon" href="#">
+                                <i class="material-icons md-notifications animation-shake"></i>
+                                <span class="badge rounded-pill">3</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
+                        </li>
+                        <li class="dropdown nav-item">
+                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i class="material-icons md-public"></i></a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
+                                <a class="dropdown-item text-brand" href="#"><img src="assetsAdmin/imgs/theme/flag-us.png" alt="English" />English</a>
+                                <a class="dropdown-item" href="#"><img src="assetsAdmin/imgs/theme/flag-fr.png" alt="Français" />Français</a>
+                                <a class="dropdown-item" href="#"><img src="assetsAdmin/imgs/theme/flag-jp.png" alt="Français" />日本語</a>
+                                <a class="dropdown-item" href="#"><img src="assetsAdmin/imgs/theme/flag-cn.png" alt="Français" />中国人</a>
+                            </div>
+                        </li>
+                        <li class="dropdown nav-item">
+                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="assetsAdmin/imgs/people/avatar-2.png" alt="User" /></a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                                <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-account_balance_wallet"></i>Wallet</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help center</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="#"><i class="material-icons md-exit_to_app"></i>Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+
+
+    <section class="container-fluid">
+        <div class="row">
+          <div class="card mb-4" style="max-width: 500px">
+            <div class="card-body">
+              <h4 class="card-title">Add Coupon</h4>
+                 
+                <div id="successContainer" class="alert alert-success" style="display: none;"></div>
+                <div id="errorContainer" class="alert alert-danger" style="display: none;"></div>
+                  <div id="reloadDiv">
+                  <form id="couponForm" style="max-width: 430px;" class="forms-sample" action="/admin/addCoupon" onsubmit="return validateForm(event)">
+
+                    <div class="form-group mb-4">
+                      <label for="coupon-name" class="form-label">Coupon Name</label>
+                      <input type="text" class="form-control" id="couponName" name="name" placeholder="Enter coupon name"
+                        required>
+                         <span id="nameError" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-4">
+                      <label class="form-label" for="coupon-code">Coupon Code</label>
+                      <input type="text" class="form-control" id="couponCode" name="couponCode" placeholder="Enter coupon code" required>
+                        <span id="codeError" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-4">
+                      <label class="form-label" for="">Description</label>
+                      <input type="text" class="form-control" id="couponDescription" name="couponDescription" placeholder="Enter description" required>
+                       <span id="descriptionError" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="form-label" for="">Availability</label>   
+                        <input type="number" class="form-control" id="couponAvailability" name="couponAvailability" placeholder="Enter availability" required>
+                          <span id="availabilityError" class="text-danger"></span>
+                      </div>
+                    
+                    <div class="form-group mb-4">
+                        <label class="form-label" for="">Discount Amount</label>
+                        <input type="number" class="form-control" id="couponDiscountAmount" name="discountAmount" placeholder="Enter discount amount" required>
+                              <span id="discountError" class="text-danger"></span>
+                      </div>
+                       <div class="form-group mb-4">
+                        <label class="form-label" for="">Minimum Amount</label>
+                        <input type="number" class="form-control" id="minAmount" name="minAmount" placeholder="Enter minimum amount" required>
+                          <span id="minError" class="text-danger"></span>
+                      </div>
+                       <div class="form-group mb-4">
+                        <label class="form-label" for="">Expiry Date</label>
+                        <input type="date" class="form-control" id="expiryDate" name="expiryDate"  required>
+                     </div>
+  
+
+                  
+
+                    <div class="mt-4">
+                      <button type="submit" class="btn btn-primary mr-2" onclick="postCoupon(event)">Submit</button>
+                      <a href="/admin/coupon" class="btn btn-secondary">Cancel</a>
+                    </div>
+
+                  </form>
+                </div>
+
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
+
+             <footer class="main-footer font-xs">
+                <div class="row pb-30 pt-15">
+                    <div class="col-sm-6">
+                        <script>
+                            document.write(new Date().getFullYear());
+                        </script>
+                        &copy; Nest - HTML Ecommerce Template .
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="text-sm-end">All rights reserved</div>
+                    </div>
+                </div>
+            </footer>
+        </main>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="assetsAdmin/js/vendors/jquery-3.6.0.min.js"></script>
+        <script src="assetsAdmin/js/vendors/bootstrap.bundle.min.js"></script>
+        <script src="assetsAdmin/js/vendors/select2.min.js"></script>
+        <script src="assetsAdmin/js/vendors/perfect-scrollbar.js"></script>
+        <script src="assetsAdmin/js/vendors/jquery.fullscreen.min.js"></script>
+
+
+<!-- DataTables JS jquery pagination search -->
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
+        <!-- DataTables CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+
+
+          <!-- jquery library search -->
+ <script>  
+ 
+  $(document).ready(function() {
+     $('.example').DataTable();
+    });
+
+
+
+ async function postCoupon(event){
+ event.preventDefault()
+
+
+  let couponName = document.getElementById('couponName').value;
+  let couponCode = document.getElementById('couponCode').value;
+  let couponDescription = document.getElementById('couponDescription').value;
+  let couponAvailability = document.getElementById('couponAvailability').value;
+  let couponDiscountAmount = document.getElementById('couponDiscountAmount').value;
+  let minAmount = document.getElementById('minAmount').value;
+
+const nameRegex = /^[a-zA-Z\s]+$/;
+const codeRegex = /^[a-zA-Z]+$/;
+const descriptionRegex = /^[a-zA-Z0-9\s.,;:'"()?!]+$/m;
+const numericRegex = /^[0-9]+$/;
+
+
+  if (!nameRegex.test(couponName)) {
+    document.getElementById('nameError').innerHTML = 'Name should only contain alphabets';
+    return false;
+  } else {
+    document.getElementById('nameError').innerHTML = '';
+  }
+
+  if (!codeRegex.test(couponCode)) {
+    document.getElementById('codeError').innerHTML = 'Coupon code must consist of only letters and should not include spaces.';
+    return false;
+  } else {
+    document.getElementById('codeError').innerHTML = '';
+  }
+
+  if (!descriptionRegex.test(couponDescription)) {
+    document.getElementById('descriptionError').innerHTML = 'Description should only contain alphabets';
+    return false;
+  } else {
+    document.getElementById('descriptionError').innerHTML = '';
+  }
+
+  if (!numericRegex.test(couponAvailability) || parseFloat(couponAvailability) <= 0) {
+    document.getElementById('availabilityError').innerHTML = 'Availability should be a positive numeric value';
+    return false;
+  } else {
+    document.getElementById('availabilityError').innerHTML = '';
+  }
+
+  if (!numericRegex.test(couponDiscountAmount) || parseInt(couponDiscountAmount) < 0) {
+    document.getElementById('discountError').innerHTML = 'Discount amount should be a non-negative integer';
+    return false;
+  } else {
+    document.getElementById('discountError').innerHTML = '';
+  }
+  if (!numericRegex.test(minAmount) || parseInt(minAmount) < 0) {
+    document.getElementById('minError').innerHTML = 'Minimum amount should be a non-negative integer';
+    return false;
+  } else {
+    document.getElementById('minError').innerHTML = '';
+  }
+
+
+ var verifyData=$('#couponForm').serialize();
+$.ajax({
+    type:'POST',
+    url:'/admin/addCoupon',
+    data:verifyData,
+    success:function(response){
+    console.log(response);
+
+  if(response.success==true){
+  if (response.message){
+
+
+   $("#successContainer").css("display","block").html(response.message);
+
+   setTimeout(()=>{
+    $("#successContainer").css("display","none").html('');
+    $('#reloadDiv').load('/admin/addCoupon #reloadDiv')
+   },3000)
+
+  }
+}
+  if (response.success==false){
+    if(response.message){
+
+   $("#errorContainer").css("display","block").html(response.message);
+      setTimeout(()=>{
+    $("#errorContainer").css("display","none").html('');
+    
+   },3000)
+
+    }
+  }
+    }
+})
+
+}
+
+
+
+ const expiryDateInput = document.getElementById('expiryDate');
+
+  // Set the minimum attribute to the current date in the "YYYY-MM-DD" format
+  const currentDate = new Date().toISOString().split('T')[0];
+  expiryDateInput.setAttribute('min', currentDate);
+     
+ </script>
+
+
+        <!-- Main Script -->
+        <script src="assetsAdmin/js/main.js?v=1.1" type="text/javascript"></script>
+    </body>
+</html>

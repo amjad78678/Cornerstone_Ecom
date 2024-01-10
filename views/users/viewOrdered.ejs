@@ -1,0 +1,189 @@
+<%- include('./layouts/header.ejs')  %>
+
+<link rel="stylesheet" href="/assets/css/viewOrdered.css">
+
+<%- include('./layouts/headerNavbar.ejs')  %>
+    
+            <br>
+            <br>
+                 <div class="text-center mt-3">
+        <h1 class="card-title">Order Status</h1>
+    </div>
+    <br>
+<div class="container-fluid">
+  <div class="col-md-12">
+    <div class="order-status-bar">
+      <div class="progress">
+        <div class="progress-bar progress-bar-striped bg-primary" role="progressbar"
+          style="width: <%= calculateProgress(orders.status) %>"
+          aria-valuenow= "<%= calculateProgress(orders.status) %>"
+          aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+      <div class="order-status-labels">
+        <div class="row">
+          <!-- Order Status Labels -->
+        
+          <span class="col-2 order-status-label <%= orders.status === 'placed' ? 'active' : '' %>">Placed</span>
+          <span class="col-2 order-status-label <%= orders.status === 'dispatched' ? 'active' : '' %>">Shipped</span>
+          <span class="col-3 order-status-label <%= orders.status === 'out for delivery' ? 'active' : '' %>">Out for Delivery</span>
+          <span class="col-3 order-status-label <%= orders.status === 'delivered' ? 'active' : '' %>">Delivered</span>
+          <!-- Add a label for 'Returned' -->
+          <% if(orders.status==='cancelled'){ %>
+          <span class="col-2 order-status-label <%= orders.status === 'cancelled' ? 'active' : '' %>">Cancelled</span>
+          <% }else if(orders.status==='returned'){ %>
+          <span class="col-2 order-status-label <%= orders.status === 'returned' ? 'active' : '' %>">Returned</span>
+            <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%
+function calculateProgress(status) {
+    switch (status) {
+        case 'placed':
+            return '20%';
+        case 'dispatched':
+            return '35%';
+        case 'out for delivery':
+            return '60%';
+        case 'delivered':
+            return '100%';
+            
+        case 'returned':
+            return '100%'; // Adjust as needed for the returned status
+
+           case 'cancelled':
+            return '100%'; // Adjust as needed for the returned status
+        default:
+            return '0%';
+    }
+}
+%>
+
+<%
+function getOrderStatusLabel(status) {
+    switch (status) {
+        case 'placed':
+            return 'Placed';
+        case 'dispatched':
+            return 'Shipped';
+        case 'out for delivery':
+            return 'Out for Delivery';
+        case 'delivered':
+            return 'Delivered';
+        case 'returned':
+            return 'Returned';
+        default:
+            return 'Unknown';
+    }
+}
+%>
+
+
+      <section class=" gradient-custom-2">
+      <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+
+
+
+          
+          <div class="col-md-10 col-lg-12 col-xl-10">
+            <div class="card card-stepper rounded-16 shadow-lg">
+     <div class="card-header p-4 bg-light">
+  <div class="justify-content-between align-items-center">
+    <div>
+      <p class="text-muted mb-2">
+        Order ID:
+        <span class="fw-bold text-dark me-5">
+          <%= orders.order_id %>
+        </span>
+      </p>
+      <p style="float: right;" class="ms-3">
+  <% if (orders.couponName) { %>
+    Coupon Name:
+    <span class="fw-bold text-dark">
+      <%= orders.couponName %>
+    </span>
+  <% } %>
+</p>
+
+<p style="float: right;">
+  <% if (orders.couponName) { %>
+    Coupon Discount:
+    <span class="fw-bold text-dark">
+      <%= orders.couponDiscount %>
+    </span>
+  <% } %>
+</p>
+
+
+
+      <p class="text-muted mb-0">
+        Order Status:
+        <span class="fw-bold me-5">
+          <%= orders.status %>
+        </span>
+      </p>
+
+      <br>
+
+      <p class="text-muted mb-0">
+        Ordered On:
+        <span class="fw-bold text-dark me-5">
+          <%= orders.date %>
+        </span>
+
+        <% if (['placed', 'dispatched', 'out for delivery'].includes(orders.status)) { %>
+          <span class="fw-bold text-dark ms-5" style="float: right;">
+            <span class="text-success">
+              Expected Delivery:
+            </span>
+            <%= orders.expected_delivery %>
+          </span>
+        <% } %>
+      </p>
+    </div>
+  </div>
+</div>
+
+            <% orders.items.forEach((ordersItem)=>{ %>
+                <div class="card-body p-4">
+                  <div class="d-flex flex-row mb-4 pb-2">
+                    <div class="flex-fill">
+                      <h5 class="font-weight-bold mb-3">
+                        <%= ordersItem.product_id.name %>
+                      </h5>
+                      <p class="text-muted mb-2">
+                        Quantity: <span class="fw-bold">
+                          <%= ordersItem.quantity %>
+                        </span>
+                      </p>
+                      <h4 class="mb-3">₹<%= ordersItem.price %>
+                      </h4>
+                    </div>
+                    <div>
+                      <img class="align-self-center img-fluid" src="<%= ordersItem.product_id.imageUrl[0]  %>"
+                        width="150" alt="Product Image" />
+                    </div>
+                   
+                  </div>
+                </div>
+                <% }) %>
+                  <h4 class="mb-3 text-center">SubTotal=₹<%= orders.total_amount %>
+                      </h4> 
+                
+             
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<%- include('./layouts/footerNavbar.ejs')  %>
+
+<%- include('./layouts/footer.ejs')  %>
+
+
+
+
