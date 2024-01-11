@@ -26,7 +26,7 @@ function calculateItemPrice(product, quantity, offerPercentage) {
 const loadWishlist = async (req, res, next) => {
    try {
       const { userId } = req.session
-      if (userId) {
+      if (req.session.userId) {
 
          const userData = await User.findOne({ _id: userId }).populate({
             path: 'wishlist.product_id',
