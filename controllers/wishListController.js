@@ -26,7 +26,7 @@ function calculateItemPrice(product, quantity, offerPercentage) {
 const loadWishlist = async (req, res, next) => {
    try {
       const { userId } = req.session
-      const userData = await User.findOne({ _id: userId }).populate({
+      const user = await User.findOne({ _id: userId }).populate({
          path: 'wishlist.product_id',
          populate: [
             { path: 'offer' },
@@ -36,8 +36,8 @@ const loadWishlist = async (req, res, next) => {
             }
          ]
       });
-      const wishlist = userData.wishlist
-      res.render('wishlist', { wishlist, calculateItemPrice })
+      const wishlist = user.wishlist
+      res.render('wishlist', { wishlist, calculateItemPrice, user })
    } catch (error) {
       console.log(error.message);
       res.status(500).render('serverError', { message: error.message });
