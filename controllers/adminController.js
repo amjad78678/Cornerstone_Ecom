@@ -428,7 +428,7 @@ loadUsers = async (req, res) => {
 
     // res.render('users', { users : usersData,totalPages,currentPage:page });
 
-    const usersData = await User.find({ is_Admin: 0 })
+    const usersData = await User.find({ is_Admin: 0 }).sort({ createdAt: -1 })
     if (usersData) {
       res.render('users', { users: usersData });
     }

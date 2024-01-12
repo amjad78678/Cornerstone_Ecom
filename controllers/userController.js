@@ -1212,7 +1212,7 @@ const postResetPassword = async (req, res) => {
             return
           }
         } else {
-          res.render('forget-password', { message: 'Password should not match', userId });
+          res.render('forget-password', { message: 'Password doesnt match', userId });
           return
         }
       } else {
