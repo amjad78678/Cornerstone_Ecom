@@ -281,12 +281,12 @@ const sentOtpVerificationMail = async ({ _id, email }, res) => {
 
 
 
-const sentResetVerificationMail = async ({ _id, email, userName }, res, token, req) => {
+const sentResetVerificationMail = async ({ email, userName }, res, token, req) => {
 
 
-  console.log(_id + 'email' + email)    //-----------------------------------------------------------------------
+
   try {
-    const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
+
     //---------------NODEMAILER TRANSPORT
     const transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -299,7 +299,7 @@ const sentResetVerificationMail = async ({ _id, email, userName }, res, token, r
       },
     });
     //mail---options-
-    console.log(email);
+
     const resetPasswordLink = `${req.protocol}://${req.get("host")}/forget-password?token=${token}`;
     const mailOptions = {
       from: process.env.AUTH_EMAIL,
@@ -361,8 +361,6 @@ const sentResetVerificationMail = async ({ _id, email, userName }, res, token, r
     };
 
     await transporter.sendMail(mailOptions);
-
-
 
 
   } catch (error) {
@@ -1122,9 +1120,9 @@ const loadForgetPassword = async (req, res) => {
 
 const postForgetPassword = async (req, res) => {
   try {
-    console.log(req.body);
+
     const userData = await User.findOne({ email: req.body.email })
-    console.log('userdatais', userData);
+
     const email = req.body.email
 
 
