@@ -403,12 +403,6 @@ async function placeOrder() {
         const param = response.params;
         const url = '/order-placed/' + param;
         window.location.href = url;
-      }else if(response.walletFailed==true){
-            Swal.fire({
-            icon: 'error',
-            title: 'Insufficient Balance',
-            text: 'Please select another payment option .'
-      });
       }else{
         razorpayPayment(response.order,response.walletDeduction)
 
@@ -421,6 +415,8 @@ async function placeOrder() {
 
 
                     function razorpayPayment(order,walletDeduction) {
+
+                      console.log('startedNewerazorpay')
                         var options = {
                             "key": "rzp_test_bc32rCVTwnCmDc", // Enter the Key ID generated from the Dashboard
                             "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
@@ -622,7 +618,7 @@ event.preventDefault()
 
       const response=await axios.post('/addMoneyToWallet',{amount})
       if(response.data.success==true){
-        razorpayPayment(response.data.payment)
+        razorpayPaymentAddWallet(response.data.payment)
       }else{
         window.location.href='/checkout'
       }
@@ -634,7 +630,7 @@ event.preventDefault()
   })
 
 
-              function razorpayPayment(payment) {
+              function razorpayPaymentAddWallet(payment) {
                         var options = {
                             "key": "rzp_test_bc32rCVTwnCmDc", // Enter the Key ID generated from the Dashboard
                             "amount": payment.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
@@ -653,7 +649,7 @@ event.preventDefault()
 
 
 
-                                verifyPayment(response, payment)
+                                verifyPaymentAddWallet(response, payment)
 
 
                             },
@@ -676,7 +672,7 @@ event.preventDefault()
                     }
 
 
-               async function verifyPayment(razorpay,payment){
+               async function verifyPaymentAddWallet(razorpay,payment){
     
 
                   console.log('raz',razorpay,'pay',payment);
@@ -688,7 +684,7 @@ event.preventDefault()
                  alert('Payment Failed');
               }
 
-                }
+            }
 
 </script>
 
