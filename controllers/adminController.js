@@ -367,7 +367,7 @@ const
       })
 
 
-      res.render('adminHome', { moment, admin: userData, userYearCount, allProfitYears, paymentMethods, paymentCounts, salesYearTotal, salesTotalYear, monthlyEarning, cancelledOrders, deliveredOrders, placedOrders, pendingOrders, latestOrders, latestUsers, countProduct, countCategory, salesdataCount, userdataCount, revenue })
+      res.render('adminHome', { admin: userData, userYearCount, allProfitYears, paymentMethods, paymentCounts, salesYearTotal, salesTotalYear, monthlyEarning, cancelledOrders, deliveredOrders, placedOrders, pendingOrders, latestOrders, latestUsers, countProduct, countCategory, salesdataCount, userdataCount, revenue, moment, })
 
 
     } catch (error) {
