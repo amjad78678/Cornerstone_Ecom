@@ -163,14 +163,14 @@
                                         <%=person.email%>
                                     </td>
                                  <td>
-                                <%=moment(person.createdAt).format('MMM Do YY') %>
+                                <%=person.createdAt.toLocaleDateString() %>
                                  </td>
 
                                 </tr>
                             <%})%>
                         </tbody>
                     </table>
-                </div>
+                </div>  
             </div>
         </div>
    
