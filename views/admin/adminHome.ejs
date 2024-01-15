@@ -162,19 +162,10 @@
                                     <td>
                                         <%=person.email%>
                                     </td>
-                                    <td>
-                                      <% 
-                                      // Assuming createdAt is a date object or a parsable date string
-                                      const createdAt = new Date(person.createdAt);
-                                      // Check if the timezone offset is 0 (GMT)
-                                      if (createdAt.getTimezoneOffset() === 0) { %>
-                                          <!-- If it's GMT, you can hide details or display a message -->
-                                          <span>Details hidden for GMT time</span>
-                                      <% } else { %>
-                                          <!-- Display the createdAt time -->
-                                          <%= createdAt.toLocaleDateString() %>
-                                      <% } %>
-                                    </td>
+                                 <td>
+                                <%=moment(person.createdAt).format('MMM Do YY') %>
+                                 </td>
+
                                 </tr>
                             <%})%>
                         </tbody>
@@ -183,11 +174,6 @@
             </div>
         </div>
    
-
-
-
-
-
                             </div>
                         </div>
                     </div>

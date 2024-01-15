@@ -205,6 +205,7 @@ const postOrderPlaced = async (req, res) => {
     const randomOrderId = 'CORN' + OrderId;
 
 
+
     const order = new Order({
       user_id: userId,
       order_id: randomOrderId,
