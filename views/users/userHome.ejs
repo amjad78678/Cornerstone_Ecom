@@ -1,6 +1,4 @@
-<%- include('./layouts/header.ejs') %>
-
-<%- include('./layouts/headerNavbar.ejs')
+<%- include('./layouts/header.ejs') %> <%- include('./layouts/headerNavbar.ejs')
 %>
 
 <!-- End header -->
@@ -15,7 +13,9 @@
       <% if(banner && banner.length>0){ %> <% banner.forEach((banners)=>{ %>
       <div
         class="intro-slide"
-        style="background-image: url('/assetsAdmin/imgs/banners/<%= banners.image[0] %>')"
+        style="
+          background-image: url('/assetsAdmin/imgs/<%= banners.image[0] %>');
+        "
       >
         <div class="container intro-content">
           <h2 class="intro-subtitle">Cornerstone</h2>
@@ -103,8 +103,6 @@
   </div>
   <!-- End .owl-carousel -->
 
-
-
   <div class="banner-group">
     <div class="container">
       <div class="row">
@@ -137,7 +135,8 @@
         <div class="storage col-md-6 col-lg-6">
           <div class="banner-large banner banner-overlay">
             <a href="/productList">
-              <img class="amaze img-fluid"
+              <img
+                class="amaze img-fluid"
                 src="assets/images/demos/demo-2/banners/banner-2.webp"
                 alt="Banner"
               />
@@ -159,9 +158,7 @@
           <!-- End .banner -->
         </div>
         <!-- End .col-lg-3 -->
- 
 
-       
         <!-- End .col-lg-4 -->
       </div>
       <!-- End .row -->
@@ -170,62 +167,61 @@
   </div>
   <!-- End .banner-group -->
 
-   <div class="container">
-          <div class="row">
-        <div class="col-md-6 col-lg-6">
-          <div class="banner banner-overlay">
-            <a href="/productList">
-              <img
-                src="assets/images/demos/demo-2/banners/banner-3.webp"
-                alt="Banner"
-              />
-            </a>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="banner banner-overlay">
+          <a href="/productList">
+            <img
+              src="assets/images/demos/demo-2/banners/banner-3.webp"
+              alt="Banner"
+            />
+          </a>
 
-            <div class="banner-content banner-content-top">
-              <h4 class="banner-subtitle text-grey">New Arrivals</h4>
-              <!-- End .banner-subtitle -->
-              <h3 class="banner-title text-white">
-                Storage <br />Boxes & Baskets
-              </h3>
-              <!-- End .banner-title -->
-              <a href="/productList" class="btn btn-outline-white banner-link"
-                >Discover Now<i class="icon-long-arrow-right"></i
-              ></a>
-            </div>
-            <!-- End .banner-content -->
+          <div class="banner-content banner-content-top">
+            <h4 class="banner-subtitle text-grey">New Arrivals</h4>
+            <!-- End .banner-subtitle -->
+            <h3 class="banner-title text-white">
+              Storage <br />Boxes & Baskets
+            </h3>
+            <!-- End .banner-title -->
+            <a href="/productList" class="btn btn-outline-white banner-link"
+              >Discover Now<i class="icon-long-arrow-right"></i
+            ></a>
           </div>
-          <!-- End .banner -->
-          </div>
-          <div class="col-md-6 col-lg-6">
-          <div class="banner banner-overlay banner-overlay-light img-fluid">
-            <a href="/productList">
-              <img
-                class="img-fluid"
-                src="assets/images/demos/demo-2/banners/sofas.webp"
-                alt="Banner"
-              />
-            </a>
+          <!-- End .banner-content -->
+        </div>
+        <!-- End .banner -->
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="banner banner-overlay banner-overlay-light img-fluid">
+          <a href="/productList">
+            <img
+              class="img-fluid"
+              src="assets/images/demos/demo-2/banners/sofas.webp"
+              alt="Banner"
+            />
+          </a>
 
-            <div class="banner-content banner-content-top">
-              <h4 class="banner-subtitle text-white">On Sale</h4>
-              <!-- End .banner-subtitle -->
-              <h3 class="banner-title text-white">Sofas Offer</h3>
-              <!-- End .banner-title -->
-              <div class="banner-text text-white">up to 30% off</div>
-              <!-- End .banner-text -->
-              <a
-                href="/productList"
-                class="btn btn-outline-gray banner-link text-white"
-                >Shop Now<i class="icon-long-arrow-right"></i
-              ></a>
-            </div>
-            <!-- End .banner-content -->
+          <div class="banner-content banner-content-top">
+            <h4 class="banner-subtitle text-white">On Sale</h4>
+            <!-- End .banner-subtitle -->
+            <h3 class="banner-title text-white">Sofas Offer</h3>
+            <!-- End .banner-title -->
+            <div class="banner-text text-white">up to 30% off</div>
+            <!-- End .banner-text -->
+            <a
+              href="/productList"
+              class="btn btn-outline-gray banner-link text-white"
+              >Shop Now<i class="icon-long-arrow-right"></i
+            ></a>
           </div>
-          <!-- End .banner -->
-          </div>
-    
+          <!-- End .banner-content -->
         </div>
-        </div>
+        <!-- End .banner -->
+      </div>
+    </div>
+  </div>
 
   <div class="mb-3"></div>
   <!-- End .mb-6 -->
@@ -456,7 +452,7 @@
                 >
               </h3>
               <!-- End .product-title -->
-            <div class="product-price me-2">
+              <div class="product-price me-2">
                 <%=product.discountedPrice %> <% if(product.discount>0){ %>
                 <p class="mb-0" style="text-decoration: line-through">
                   ₹ <%= product.price %>
@@ -651,38 +647,38 @@
       try {
         event.preventDefault();
 
-        const response = await axios.put('/wishlist', { productId });
+        const response = await axios.put("/wishlist", { productId });
 
         if (response.data.success == true) {
           const { count } = response.data;
 
           Swal.fire({
-            title: 'Success!',
-            text: 'Your product has been added to the wishlist.',
-            icon: 'success',
-            confirmButtonColor: '#4caf50', // You can customize the color if needed
-            confirmButtonText: 'Great!',
+            title: "Success!",
+            text: "Your product has been added to the wishlist.",
+            icon: "success",
+            confirmButtonColor: "#4caf50", // You can customize the color if needed
+            confirmButtonText: "Great!",
           });
         } else if (response.data.success == false) {
           Swal.fire({
-            title: 'Oops!',
-            text: 'This product is already in your wishlist.',
-            icon: 'info',
-            confirmButtonColor: '#ff9800', // You can customize the color if needed
-            confirmButtonText: 'Got it!',
+            title: "Oops!",
+            text: "This product is already in your wishlist.",
+            icon: "info",
+            confirmButtonColor: "#ff9800", // You can customize the color if needed
+            confirmButtonText: "Got it!",
           });
         } else if (response.data.login == true) {
           Swal.fire({
-            title: 'Error adding to cart',
-            text: 'Please login to continue',
-            icon: 'error',
+            title: "Error adding to cart",
+            text: "Please login to continue",
+            icon: "error",
             showCancelButton: true,
-            confirmButtonText: 'Login', // Text for the login button
-            cancelButtonText: 'Cancel', // Text for the cancel button
+            confirmButtonText: "Login", // Text for the login button
+            cancelButtonText: "Cancel", // Text for the cancel button
           }).then((result) => {
             if (result.isConfirmed) {
               // Redirect to the login section when the "Login" button is clicked
-              window.location.href = '/userSignIn'; // Replace "/login" with your actual login page URL
+              window.location.href = "/userSignIn"; // Replace "/login" with your actual login page URL
             } else if (result.dismiss === Swal.DismissReason.cancel) {
               // Handle the cancel action if needed (not needed in this case)
             }
