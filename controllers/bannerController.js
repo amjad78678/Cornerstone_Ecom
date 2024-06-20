@@ -143,47 +143,51 @@ const patchDeleteBanner = async (req, res, next) => {
 
 
 
+
 const postEditBanner = async (req, res, next) => {
   try {
-    const { banner_id, banner_title, banner_description, banner_event } = req.body
-
-    // to delete image of oldimage
+    const { banner_id, banner_title, banner_description, banner_event } = req.body;
 
     const existingBanner = await Banner.findById(banner_id);
     if (!existingBanner) {
       return res.status(404).json({ success: false, message: 'Banner not found' });
     }
+
     if (req.files && req.files.length > 0) {
-
-      // Unlink old images
       const oldImageFilenames = existingBanner.image;
-
-
-      const imageFolderPath = path.join(__dirname, '../public/assetsAdmin/imgs/banners');
-
-      for (const filename of oldImageFilenames) {
-        const imagePath = path.join(imageFolderPath, filename);
-        await fs.promises.unlink(imagePath);
-        console.log(`Old image ${filename} deleted successfully.`);
-      }
-
-      // Assuming your images are in the "public/assetsAdmin/imgs/banners" directory
-      const resizedFolder = path.join(__dirname, '../public/assetsAdmin/imgs/products');
+      const bannerImageFolderPath = path.join(__dirname, '../public/assetsAdmin/imgs/banners');
+      const productImageFolderPath = path.join(__dirname, '../public/assetsAdmin/imgs/products');
 
       for (const filename of oldImageFilenames) {
-        const imagePath = path.join(resizedFolder, filename);
-        await fs.promises.unlink(imagePath);
-        console.log(`Image ${filename} deleted successfully.`);
+        const bannerImagePath = path.join(bannerImageFolderPath, filename);
+        const productImagePath = path.join(productImageFolderPath, filename);
+
+        try {
+          await fs.promises.access(bannerImagePath);
+          await fs.promises.unlink(bannerImagePath);
+          console.log(`Old banner image ${filename} deleted successfully.`);
+        } catch (err) {
+          if (err.code !== 'ENOENT') {
+            console.error(`Error deleting banner image ${filename}:`, err);
+          }
+        }
+
+        try {
+          await fs.promises.access(productImagePath);
+          await fs.promises.unlink(productImagePath);
+          console.log(`Old product image ${filename} deleted successfully.`);
+        } catch (err) {
+          if (err.code !== 'ENOENT') {
+            console.error(`Error deleting product image ${filename}:`, err);
+          }
+        }
       }
-
-
-
     }
 
     const imageArr = [];
     if (req.files && req.files.length > 0) {
-      for (i = 0; i < req.files.length; i++) {
-        const filePath = path.join(__dirname, "../public/assetsAdmin/imgs/banners", req.files[i].filename)
+      for (let i = 0; i < req.files.length; i++) {
+        const filePath = path.join(__dirname, "../public/assetsAdmin/imgs/banners", req.files[i].filename);
         await sharp(req.files[i].path).resize({ width: 1920, height: 500 }).toFile(filePath);
         imageArr.push(req.files[i].filename);
       }
@@ -193,24 +197,22 @@ const postEditBanner = async (req, res, next) => {
       return str.charAt(0).toUpperCase() + str.slice(1);
     }
 
+    console.log('imageArr', imageArr);
     if (req.files && req.files.length > 0) {
-
-      await Banner.updateOne({ _id: banner_id }, { $set: { title: banner_title.toUpperCase(), description: capitalizeFirstLetter(banner_description).trim(), event: capitalizeFirstLetter(banner_event), image: imageArr } })
-
-      res.redirect('/admin/banners')
+      console.log('inside reqfiles');
+      await Banner.updateOne({ _id: banner_id }, { $set: { title: banner_title.toUpperCase(), description: capitalizeFirstLetter(banner_description).trim(), event: capitalizeFirstLetter(banner_event), image: imageArr } });
+      res.redirect('/admin/banners');
     } else {
-      await Banner.updateOne({ _id: banner_id }, { $set: { title: banner_title.toUpperCase(), description: capitalizeFirstLetter(banner_description).trim(), event: capitalizeFirstLetter(banner_event) } })
-
-      res.redirect('/admin/banners')
+      await Banner.updateOne({ _id: banner_id }, { $set: { title: banner_title.toUpperCase(), description: capitalizeFirstLetter(banner_description).trim(), event: capitalizeFirstLetter(banner_event) } });
+      res.redirect('/admin/banners');
     }
-
 
   } catch (error) {
     console.log(error.message);
     res.status(500).render('serverError', { message: error.message });
-    next(error)
+    next(error);
   }
-}
+};
 
 
 
