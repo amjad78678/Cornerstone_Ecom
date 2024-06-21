@@ -2,13 +2,12 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
-
     runs-on: self-hosted
 
     strategy:
@@ -17,12 +16,13 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
+      - name: Set up permissions for workspace
+        run: |
+          sudo chmod -R 777 /home/ubuntu/actions-runner/_work/_temp
+          sudo chmod -R 777 /home/ubuntu/actions-runner/_work/Cornerstone_Ecom
+
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Set permissions
-        run: |
-          sudo chmod -R 777 /home/ubuntu/actions-runner/_work/Cornerstone_Ecom/Cornerstone_Ecom
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
