@@ -52,7 +52,6 @@ const postAddBanner = async (req, res, next) => {
       if (req.files && req.files.length > 0) {
         for (i = 0; i < req.files.length; i++) {
           const filePath = path.join(__dirname, "../public/assetsAdmin/imgs/banners", req.files[i].filename);
-
           await sharp(req.files[i].path).resize({ width: 1920, height: 500 }).toFile(filePath);
           imageArr.push(req.files[i].filename);
         }
