@@ -48,5 +48,3 @@ app.listen(port, () =>
   console.log(`port is running at http://localhost:${port}/  port is running at http://localhost:${port}/admin`),
 );
 
-// hello bruda endokkeya
-// why am i not working
