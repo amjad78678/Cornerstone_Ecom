@@ -676,29 +676,24 @@ const postAddProduct = async (req, res) => {
 
     const name = req.body.name
     const description = req.body.description
-
     const resizedImages = [];
     for (let i = 0; i < req.files.length; i++) {
       const originalPath = req.files[i].path;
-      const resizedPath = path.join(__dirname, "../public/assetsAdmin/imgs/products/resized", req.files[i].filename);
-
+      const resizedPath = path.join(__dirname, "../public/resizedImages", req.files[i].filename);
       console.log('Original path:', originalPath);
       await sharp(originalPath).resize(840, 840, { fit: "fill" }).toFile(resizedPath);
       console.log('Resized path:', resizedPath);
-
       resizedImages[i] = req.files[i].filename;
-
+      fs.unlinkSync(originalPath);
     }
 
 
 
     console.log('resizedimage', resizedImages);
-
     const price = req.body.price
     const wood = req.body.wood
     const quantity = req.body.quantity
     const category = req.body.category
-
 
     if (req.files.length !== 5 || req.files.length > 5) {
 
@@ -804,15 +799,9 @@ const loadEditProduct = async (req, res) => {
 
 const postEditProduct = async (req, res) => {
   try {
-
-
     const product = await Product.findOne({ _id: req.body.id })
     const categ = await Product.find({ is_Listed: 1 })
-
-
     console.log('files', req.files.length);
-
-
 
     if (req.files) {
       const existingCount = (await Product.findById(req.body.id)).imageUrl.length
@@ -821,25 +810,18 @@ const postEditProduct = async (req, res) => {
         res.json({ limited: true, message: 'Only 5 images allowed' })
       } else {
 
-
-
         const resizedImages = [];
         for (let i = 0; i < req.files.length; i++) {
           const originalPath = req.files[i].path;
-          const resizedPath = path.join(__dirname, "../public/assetsAdmin/imgs/products/resized", req.files[i].filename);
-
+          const resizedPath = path.join(__dirname, "../public/resizedImages", req.files[i].filename);
           console.log('Original path:', originalPath);
           await sharp(originalPath).resize(840, 840, { fit: "fill" }).toFile(resizedPath);
           console.log('Resized path:', resizedPath);
-
           resizedImages[i] = req.files[i].filename;
+          fs.unlinkSync(originalPath);
         }
 
-
-
         console.log('resizedimage', resizedImages);
-
-
 
         await Product.findByIdAndUpdate(
           { _id: req.body.id },
