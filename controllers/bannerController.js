@@ -159,11 +159,11 @@ const postEditBanner = async (req, res, next) => {
       const oldImageFilenames = existingBanner.image;
       const bannerImageFolderPath = path.join(
         __dirname,
-        "../public/assetsAdmin/imgs/banners"
+        "../public/resizedImages"
       );
       const productImageFolderPath = path.join(
         __dirname,
-        "../public/assetsAdmin/imgs/products"
+        "../public/resizedImages"
       );
 
       for (const filename of oldImageFilenames) {
